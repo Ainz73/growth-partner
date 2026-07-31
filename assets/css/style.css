@@ -253,6 +253,16 @@ ul { list-style: none; }
   color: transparent;
 }
 
+.typewriter-cursor {
+  display: inline-block;
+  animation: typewriter-blink 1s step-end infinite;
+}
+
+@keyframes typewriter-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .hero__subtitle {
   font-size: 1.1rem;
   color: var(--text-light);
