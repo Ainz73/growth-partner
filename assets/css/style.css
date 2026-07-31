@@ -245,18 +245,6 @@ ul { list-style: none; }
   line-height: 1.15;
   color: var(--blue);
   margin-bottom: 22px;
-  /* Reserves room for the tallest state the looping typewriter can reach
-     (longest word, fully typed) so typing/deleting never reflows the
-     CTAs/stats below. Measured empirically at 1440x900: max 199px
-     (plateaus for all widths >= ~1152px). Mobile value is set separately
-     below 768px, where narrow widths need more wrapped lines. */
-  min-height: 204px;
-}
-.hero__title span {
-  background: linear-gradient(135deg, var(--green), var(--purple));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 .typewriter-cursor {
@@ -274,6 +262,15 @@ ul { list-style: none; }
   color: var(--text-light);
   max-width: 560px;
   margin: 0 auto 36px;
+  /* Reserves room for the tallest state the looping typewriter can reach
+     (longest word, fully typed) so typing/deleting never reflows the
+     CTAs/stats below. Measured empirically from 360px to 1920px: max
+     56px. Mobile value is set separately below 768px. */
+  min-height: 56px;
+}
+.hero__subtitle .typewriter {
+  color: var(--purple);
+  font-weight: 700;
 }
 
 .hero__actions {
@@ -919,10 +916,11 @@ ul { list-style: none; }
 
   .hero__stats { gap: 28px; }
 
-  /* Narrow phones (measured down to 320px) need more wrapped lines than
-     desktop for the typewriter's longest word, so the tallest reserved
-     state is larger here. Measured max at 320-330px: 202px. */
-  .hero__title { min-height: 210px; }
+  /* Narrow phones need more wrapped lines than desktop for the typewriter's
+     longest word, so the tallest reserved state is larger here. Measured
+     max at 300-340px: 84px (360px and up already fits within the base
+     56px min-height). */
+  .hero__subtitle { min-height: 84px; }
 
   .services__grid { grid-template-columns: repeat(2, 1fr); }
   .related-services__grid { grid-template-columns: repeat(2, 1fr); }
