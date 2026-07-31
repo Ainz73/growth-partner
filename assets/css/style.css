@@ -245,6 +245,12 @@ ul { list-style: none; }
   line-height: 1.15;
   color: var(--blue);
   margin-bottom: 22px;
+  /* Reserves room for the tallest state the looping typewriter can reach
+     (longest word, fully typed) so typing/deleting never reflows the
+     CTAs/stats below. Measured empirically at 1440x900: max 199px
+     (plateaus for all widths >= ~1152px). Mobile value is set separately
+     below 768px, where narrow widths need more wrapped lines. */
+  min-height: 204px;
 }
 .hero__title span {
   background: linear-gradient(135deg, var(--green), var(--purple));
@@ -912,6 +918,11 @@ ul { list-style: none; }
   .burger { display: flex; }
 
   .hero__stats { gap: 28px; }
+
+  /* Narrow phones (measured down to 320px) need more wrapped lines than
+     desktop for the typewriter's longest word, so the tallest reserved
+     state is larger here. Measured max at 320-330px: 202px. */
+  .hero__title { min-height: 210px; }
 
   .services__grid { grid-template-columns: repeat(2, 1fr); }
   .related-services__grid { grid-template-columns: repeat(2, 1fr); }
