@@ -27,14 +27,14 @@ html {
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Raleway', sans-serif;
   color: var(--text-dark);
   background: var(--bg-light);
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-h1, h2, h3, .logo { font-family: 'Poppins', sans-serif; }
+h1, h2, h3, .logo { font-family: 'Fraunces', serif; }
 
 img { max-width: 100%; display: block; }
 
@@ -258,13 +258,16 @@ ul { list-style: none; }
 }
 
 .hero__subtitle {
+  font-family: 'Public Sans', sans-serif;
   font-size: 1.1rem;
   color: var(--text-light);
-  max-width: 560px;
+  max-width: 650px;
   margin: 0 auto 36px;
   /* Reserves room for the tallest state the looping typewriter can reach
      (longest word, fully typed) so typing/deleting never reflows the
-     CTAs/stats below. Measured empirically from 360px to 1920px: max
+     CTAs/stats below. Measured empirically from 360px to 1920px at the
+     previous 560px max-width (a safe upper bound here too, since a wider
+     container only ever needs the same or fewer wrapped lines): max
      56px. Mobile value is set separately below 768px. */
   min-height: 56px;
 }
@@ -289,7 +292,7 @@ ul { list-style: none; }
 }
 .stat { display: flex; flex-direction: column; align-items: center; }
 .stat__number {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Fraunces', serif;
   font-size: 2rem;
   font-weight: 700;
   color: var(--blue);
@@ -309,6 +312,7 @@ ul { list-style: none; }
 .section-title--light { color: #fff; text-align: left; }
 
 .section-subtitle {
+  font-family: 'Public Sans', sans-serif;
   text-align: center;
   color: var(--text-light);
   max-width: 560px;
@@ -605,7 +609,7 @@ ul { list-style: none; }
   padding: 13px 16px;
   border-radius: 12px;
   border: 1.5px solid rgba(27, 73, 101, 0.15);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-size: 0.95rem;
   background: var(--bg-light);
   transition: border-color .2s ease, box-shadow .2s ease;
@@ -716,6 +720,7 @@ ul { list-style: none; }
   margin-bottom: 18px;
 }
 .service-hero__subtitle {
+  font-family: 'Public Sans', sans-serif;
   font-size: 1.05rem;
   color: var(--text-light);
   max-width: 600px;
@@ -765,7 +770,7 @@ ul { list-style: none; }
 .scrolly__visual-item.is-active { opacity: 1; transform: translateY(0) scale(1); }
 
 .scrolly__visual-number {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Fraunces', serif;
   font-size: 3.2rem;
   font-weight: 800;
   color: var(--accent, var(--green));
@@ -805,7 +810,7 @@ ul { list-style: none; }
 }
 .scrolly__step-index {
   display: inline-block;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Fraunces', serif;
   font-weight: 700;
   font-size: 0.85rem;
   color: var(--accent, var(--green));
