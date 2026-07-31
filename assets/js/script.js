@@ -70,6 +70,32 @@ document.addEventListener('DOMContentLoaded', () => {
     if (steps[0]) setActive(steps[0]);
   });
 
+  // Parallax on service-hero decorative art
+  const heroArts = document.querySelectorAll('.service-hero__art-svg');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (heroArts.length && !prefersReducedMotion) {
+    let ticking = false;
+
+    const updateParallax = () => {
+      heroArts.forEach(art => {
+        const section = art.closest('.service-hero');
+        const offset = section.getBoundingClientRect().top * 0.12;
+        art.style.transform = `translateY(${offset}px)`;
+      });
+      ticking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateParallax);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateParallax();
+  }
+
   // Contact form (front-end only demo)
   const form = document.getElementById('contact-form');
   const success = document.getElementById('form-success');
