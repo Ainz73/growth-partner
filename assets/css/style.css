@@ -444,20 +444,92 @@ ul { list-style: none; }
   display: flex; align-items: center; justify-content: center;
   background: rgba(255,255,255,0.1);
   border-radius: 10px;
+  animation: iconPulse 2.6s ease-in-out infinite;
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.contact__list li:nth-child(2) span { animation-delay: .4s; }
+.contact__list li:hover span {
+  background: var(--green);
+  box-shadow: 0 8px 20px rgba(1, 182, 149, 0.4);
+  transform: scale(1.15) rotate(-6deg);
+  animation-play-state: paused;
+}
+
+@keyframes iconPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact__list span { animation: none; }
 }
 
 .socials { display: flex; gap: 12px; }
 .socials a {
   width: 42px; height: 42px;
   display: flex; align-items: center; justify-content: center;
+  position: relative;
   background: rgba(255,255,255,0.1);
   border-radius: 12px;
   color: #fff;
-  font-size: 0.8rem;
-  font-weight: 600;
-  transition: background .2s ease, transform .2s ease;
+  transition: background .25s ease, transform .25s ease, box-shadow .25s ease;
 }
-.socials a:hover { background: var(--green); transform: translateY(-3px); }
+.socials a svg { width: 20px; height: 20px; }
+.socials a:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.25); }
+
+/* Facebook: gentle tilt wiggle */
+.socials a.social--facebook svg { animation: fbWiggle 3.4s ease-in-out infinite; transform-origin: 50% 85%; }
+.socials a.social--facebook:hover { background: #1877f2; }
+@keyframes fbWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-12deg); }
+  75% { transform: rotate(12deg); }
+}
+
+/* Instagram: shifting brand gradient */
+.socials a.social--instagram {
+  background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7, #f9ce34);
+  background-size: 300% 300%;
+  animation: igGradient 7s ease infinite;
+}
+.socials a.social--instagram:hover { transform: translateY(-3px) scale(1.1); }
+@keyframes igGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* TikTok: rhythmic bounce */
+.socials a.social--tiktok svg { animation: ttBounce 1.9s ease-in-out infinite; }
+.socials a.social--tiktok:hover { background: #010101; }
+@keyframes ttBounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+  50% { transform: translateY(0); }
+  70% { transform: translateY(-2px); }
+}
+
+/* WhatsApp: radiating ping ring */
+.socials a.social--whatsapp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  border: 2px solid #25d366;
+  animation: waPulse 2.4s ease-out infinite;
+}
+.socials a.social--whatsapp:hover { background: #25d366; }
+@keyframes waPulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .socials a.social--facebook svg,
+  .socials a.social--instagram,
+  .socials a.social--tiktok svg,
+  .socials a.social--whatsapp::before { animation: none; }
+}
 
 .contact__form {
   background: #fff;
