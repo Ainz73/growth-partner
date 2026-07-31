@@ -106,4 +106,56 @@ document.addEventListener('DOMContentLoaded', () => {
     form.reset();
     setTimeout(() => success.classList.remove('show'), 4000);
   });
+
+  // Hero typewriter
+  const typewriterEl = document.querySelector('.typewriter');
+  const typewriterCursor = document.querySelector('.typewriter-cursor');
+
+  if (typewriterEl) {
+    const words = typewriterEl.dataset.words.split(',');
+    const prefersReducedMotionType = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotionType) {
+      typewriterEl.textContent = words[0];
+      if (typewriterCursor) typewriterCursor.style.display = 'none';
+    } else {
+      const TYPE_SPEED = 80;
+      const DELETE_SPEED = 45;
+      const PAUSE_AFTER_TYPE = 1800;
+      const PAUSE_AFTER_DELETE = 300;
+
+      let wordIndex = 0;
+      let charIndex = 0;
+      let deleting = false;
+
+      const tick = () => {
+        const currentWord = words[wordIndex];
+
+        if (!deleting) {
+          charIndex++;
+          typewriterEl.textContent = currentWord.slice(0, charIndex);
+
+          if (charIndex === currentWord.length) {
+            deleting = true;
+            setTimeout(tick, PAUSE_AFTER_TYPE);
+            return;
+          }
+          setTimeout(tick, TYPE_SPEED);
+        } else {
+          charIndex--;
+          typewriterEl.textContent = currentWord.slice(0, charIndex);
+
+          if (charIndex === 0) {
+            deleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            setTimeout(tick, PAUSE_AFTER_DELETE);
+            return;
+          }
+          setTimeout(tick, DELETE_SPEED);
+        }
+      };
+
+      tick();
+    }
+  }
 });
