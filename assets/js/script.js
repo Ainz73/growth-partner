@@ -37,8 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(section => spyObserver.observe(section));
 
-  // Reveal on scroll (hero elements are excluded — they're driven by the
-  // preloader entrance sequence below instead)
+  // Reveal on scroll
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -48,28 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.reveal').forEach(el => {
-    if (!el.closest('.hero')) revealObserver.observe(el);
-  });
-
-  // Preloader entrance sequence
-  const preloader = document.getElementById('preloader');
-  const heroRevealEls = document.querySelectorAll('.hero .reveal');
-  const prefersReducedMotionLoad = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  document.body.classList.add('is-loading');
-
-  const finishPreload = () => {
-    preloader.classList.add('is-hidden');
-    document.body.classList.remove('is-loading');
-    heroRevealEls.forEach(el => el.classList.add('is-visible'));
-  };
-
-  if (prefersReducedMotionLoad) {
-    finishPreload();
-  } else {
-    setTimeout(finishPreload, 1100);
-  }
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
   // Scrollytelling (service detail pages)
   document.querySelectorAll('.scrolly').forEach(scrolly => {
