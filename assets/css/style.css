@@ -54,7 +54,7 @@ ul { list-style: none; }
    ========================================================================== */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(48px);
   transition: opacity .7s ease, transform .7s ease;
 }
 .reveal.is-visible {
@@ -379,13 +379,6 @@ ul { list-style: none; }
   overflow: hidden;
   transition: opacity .7s ease, transform .7s ease, box-shadow .3s ease;
   border: 1px solid rgba(27, 73, 101, 0.06);
-}
-/* Larger pre-reveal offset than the sitewide .reveal default (24px), so
-   the scroll-in reads as more pronounced for these cards specifically.
-   :not(.is-visible) stops this from fighting .reveal.is-visible's
-   translateY(0) once revealed. */
-.card.reveal:not(.is-visible) {
-  transform: translateY(48px);
 }
 .card:hover {
   transform: translateY(-8px);
