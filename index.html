@@ -12,16 +12,20 @@
 
 <header class="header" id="header">
   <div class="container header__inner">
+    <nav class="nav" id="nav">
+      <div class="nav__group nav__group--left">
+        <a href="#inicio" class="nav__link active">Inicio</a>
+        <a href="#servicios" class="nav__link">Servicios</a>
+      </div>
+      <div class="nav__group nav__group--right">
+        <a href="#resenias" class="nav__link">Reseñas</a>
+        <a href="#contacto" class="nav__link">Contáctanos</a>
+      </div>
+    </nav>
+
     <a href="#inicio" class="logo">
       <img src="assets/img/logo-dark-trim.png" alt="Growth Partner" class="logo__img">
     </a>
-
-    <nav class="nav" id="nav">
-      <a href="#inicio" class="nav__link active">Inicio</a>
-      <a href="#servicios" class="nav__link">Servicios</a>
-      <a href="#resenias" class="nav__link">Reseñas</a>
-      <a href="#contacto" class="nav__link">Contáctanos</a>
-    </nav>
 
     <button class="burger" id="burger" aria-label="Abrir menú">
       <span></span><span></span><span></span>
@@ -36,27 +40,11 @@
     <div class="hero__blob hero__blob--1"></div>
     <div class="hero__blob hero__blob--2"></div>
     <div class="container hero__inner">
-      <p class="eyebrow reveal">Marketing Digital que convierte</p>
       <h1 class="hero__title reveal">Hacemos crecer tu marca en el mundo digital</h1>
       <p class="hero__subtitle reveal">Convertimos&nbsp;<span class="typewriter" data-words="redes sociales,publicidad,branding,contenido,presencia&nbsp;digital"></span><span class="typewriter-cursor" aria-hidden="true">|</span>en resultados reales para tu negocio.</p>
       <div class="hero__actions reveal">
         <a href="#contacto" class="btn btn--primary">Solicita tu propuesta</a>
         <a href="#servicios" class="btn btn--ghost">Ver servicios</a>
-      </div>
-
-      <div class="hero__stats reveal">
-        <div class="stat">
-          <span class="stat__number">+120</span>
-          <span class="stat__label">Marcas impulsadas</span>
-        </div>
-        <div class="stat">
-          <span class="stat__number">98%</span>
-          <span class="stat__label">Clientes satisfechos</span>
-        </div>
-        <div class="stat">
-          <span class="stat__number">+5M</span>
-          <span class="stat__label">Alcance generado</span>
-        </div>
       </div>
     </div>
   </section>
@@ -65,7 +53,6 @@
   <section id="servicios" class="services">
     <div class="services__bg" aria-hidden="true"></div>
     <div class="container">
-      <p class="eyebrow eyebrow--center reveal">Lo que hacemos</p>
       <h2 class="section-title reveal">Nuestros Servicios</h2>
       <p class="section-subtitle reveal">Soluciones completas de marketing digital para llevar tu negocio al siguiente nivel.</p>
 
@@ -121,7 +108,6 @@
   <!-- RESEÑAS -->
   <section id="resenias" class="reviews">
     <div class="container">
-      <p class="eyebrow eyebrow--center reveal">Testimonios</p>
       <h2 class="section-title reveal">Lo que dicen nuestros clientes</h2>
       <p class="section-subtitle reveal">La confianza de quienes ya han crecido con nosotros.</p>
 
@@ -170,7 +156,6 @@
     <div class="contact__blob"></div>
     <div class="container contact__inner">
       <div class="contact__info reveal">
-        <p class="eyebrow">Hablemos</p>
         <h2 class="section-title section-title--light">¿Listo para hacer crecer tu marca?</h2>
         <p class="contact__text">Cuéntanos sobre tu proyecto y te ayudaremos a diseñar la estrategia digital perfecta para alcanzar tus objetivos.</p>
 

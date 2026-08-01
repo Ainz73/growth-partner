@@ -114,13 +114,16 @@ ul { list-style: none; }
 .header.scrolled { box-shadow: 0 6px 24px rgba(27, 73, 101, 0.08); }
 
 .header__inner {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: "navleft logo navright";
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  gap: 80px;
 }
 
 .logo {
+  grid-area: logo;
+  justify-self: center;
   display: flex;
   align-items: center;
   font-weight: 700;
@@ -132,16 +135,23 @@ ul { list-style: none; }
 .logo__img { height: 40px; width: auto; display: block; }
 .logo--footer .logo__img { height: 34px; }
 
-.nav {
+.nav { display: contents; }
+
+.nav__group {
   display: flex;
-  gap: 8px;
-  margin-left: auto;
+  align-items: center;
+  gap: 32px;
 }
+.nav__group--left { grid-area: navleft; justify-self: end; }
+.nav__group--right { grid-area: navright; justify-self: start; }
+
 .nav__link {
   position: relative;
-  padding: 8px 16px;
-  font-weight: 500;
-  font-size: 0.95rem;
+  padding: 8px 4px;
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--text-dark);
   border-radius: 100px;
   transition: color .2s ease, background .2s ease;
@@ -149,7 +159,7 @@ ul { list-style: none; }
 .nav__link::after {
   content: '';
   position: absolute;
-  left: 16px; right: 16px; bottom: 4px;
+  left: 4px; right: 4px; bottom: 2px;
   height: 2px;
   background: var(--green);
   transform: scaleX(0);
@@ -283,21 +293,6 @@ ul { list-style: none; }
   flex-wrap: wrap;
   margin-bottom: 64px;
 }
-
-.hero__stats {
-  display: flex;
-  justify-content: center;
-  gap: 48px;
-  flex-wrap: wrap;
-}
-.stat { display: flex; flex-direction: column; align-items: center; }
-.stat__number {
-  font-family: 'Fraunces', serif;
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--blue);
-}
-.stat__label { font-size: 0.85rem; color: var(--text-light); }
 
 /* ==========================================================================
    Section titles (shared)
@@ -900,11 +895,14 @@ ul { list-style: none; }
 }
 
 @media (max-width: 768px) {
+  .header__inner { display: flex; align-items: center; justify-content: space-between; }
+
   .nav {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: var(--header-h);
     left: 0; right: 0;
-    flex-direction: column;
     background: #fff;
     padding: 12px 24px 24px;
     gap: 4px;
@@ -914,12 +912,11 @@ ul { list-style: none; }
     transition: transform .3s ease, opacity .3s ease;
   }
   .nav.open { transform: translateY(0); opacity: 1; }
+  .nav__group { flex-direction: column; gap: 4px; }
   .nav__link { padding: 12px 16px; }
 
   .header__cta { display: none; }
   .burger { display: flex; }
-
-  .hero__stats { gap: 28px; }
 
   /* Narrow phones need more wrapped lines than desktop for the typewriter's
      longest word, so the tallest reserved state is larger here. Measured
