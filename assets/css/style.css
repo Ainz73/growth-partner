@@ -1,4 +1,22 @@
 /* ==========================================================================
+   Typography — Work Sans (self-hosted variable font, weights 100–900)
+   ========================================================================== */
+@font-face {
+  font-family: 'Work Sans';
+  src: url('../fonts/Work_Sans/WorkSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Work Sans';
+  src: url('../fonts/Work_Sans/WorkSans-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ==========================================================================
    Variables
    ========================================================================== */
 :root {
@@ -12,6 +30,8 @@
   --text-light: #8a6a72;
   --bg-light: #f6efea;
   --white: #ffffff;
+
+  --font-sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 
   --shadow: 0 10px 30px rgba(84, 35, 68, 0.08);
   --shadow-strong: 0 20px 45px rgba(84, 35, 68, 0.16);
@@ -27,14 +47,18 @@ html {
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-sans);
   color: var(--text-dark);
   background: var(--bg-light);
   line-height: 1.6;
   overflow-x: hidden;
 }
 
-h1, h2, h3, .logo { font-family: 'Fraunces', serif; }
+h1, h2, h3, .logo {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
 
 img { max-width: 100%; display: block; }
 
@@ -304,7 +328,9 @@ ul { list-style: none; }
 .hero .eyebrow {
   color: var(--beige);
   background: none;
-  font-family: 'IBM Plex Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  letter-spacing: 0.08em;
   font-size: 25px;
   line-height: 0;
 }
@@ -345,7 +371,7 @@ ul { list-style: none; }
 }
 
 .hero__subtitle {
-  font-family: 'Public Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.1rem;
   color: var(--purple);
   max-width: 650px;
@@ -376,7 +402,7 @@ ul { list-style: none; }
 .hero-intro .hero__subtitle { margin: 0 auto; }
 
 .hero-intro__text {
-  font-family: 'Public Sans', sans-serif;
+  font-family: var(--font-sans);
   font-style: italic;
   font-size: 1.15rem;
   color: var(--wine);
@@ -423,7 +449,7 @@ ul { list-style: none; }
 .section-title--light { color: #fff; text-align: left; }
 
 .section-subtitle {
-  font-family: 'Public Sans', sans-serif;
+  font-family: var(--font-sans);
   text-align: center;
   color: var(--text-light);
   max-width: 560px;
@@ -720,7 +746,7 @@ ul { list-style: none; }
   padding: 13px 16px;
   border-radius: 12px;
   border: 1.5px solid rgba(27, 73, 101, 0.15);
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.95rem;
   background: var(--bg-light);
   transition: border-color .2s ease, box-shadow .2s ease;
@@ -831,7 +857,7 @@ ul { list-style: none; }
   margin-bottom: 18px;
 }
 .service-hero__subtitle {
-  font-family: 'Public Sans', sans-serif;
+  font-family: var(--font-sans);
   font-size: 1.05rem;
   color: var(--text-light);
   max-width: 600px;
@@ -881,7 +907,7 @@ ul { list-style: none; }
 .scrolly__visual-item.is-active { opacity: 1; transform: translateY(0) scale(1); }
 
 .scrolly__visual-number {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-sans);
   font-size: 3.2rem;
   font-weight: 800;
   color: var(--accent, var(--green));
@@ -921,7 +947,7 @@ ul { list-style: none; }
 }
 .scrolly__step-index {
   display: inline-block;
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-sans);
   font-weight: 700;
   font-size: 0.85rem;
   color: var(--accent, var(--green));
