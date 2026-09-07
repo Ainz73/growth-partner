@@ -13,17 +13,33 @@
 <header class="header" id="header">
   <div class="container header__inner">
     <a href="../index.html#inicio" class="logo">
-      <img src="../assets/img/logo-dark-trim.png" alt="Growth Partner" class="logo__img">
+      <span class="logo__img logo-reveal">
+        <svg class="logo__svg logo-reveal__half logo-reveal__half--left" viewBox="0 0 830 121" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="420" height="121" fill="#e7bbab"/>
+          <rect x="420" y="0" width="410" height="121" fill="#542344"/>
+          <text x="210" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Public Sans', sans-serif" font-weight="700" font-size="66" fill="#542344">Growth</text>
+          <text x="625" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Public Sans', sans-serif" font-weight="700" font-size="66" fill="#e7bbab">Partner</text>
+        </svg>
+        <svg class="logo__svg logo-reveal__half logo-reveal__half--right" viewBox="0 0 830 121" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="420" height="121" fill="#e7bbab"/>
+          <rect x="420" y="0" width="410" height="121" fill="#542344"/>
+          <text x="210" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Public Sans', sans-serif" font-weight="700" font-size="66" fill="#542344">Growth</text>
+          <text x="625" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Public Sans', sans-serif" font-weight="700" font-size="66" fill="#e7bbab">Partner</text>
+        </svg>
+      </span>
     </a>
 
     <nav class="nav" id="nav">
-      <a href="../index.html#inicio" class="nav__link">Inicio</a>
-      <a href="../index.html#servicios" class="nav__link active">Servicios</a>
-      <a href="../index.html#resenias" class="nav__link">Reseñas</a>
-      <a href="../index.html#contacto" class="nav__link">Contáctanos</a>
+      <div class="nav__group nav__group--left">
+        <a href="../index.html#inicio" class="nav__link">Inicio</a>
+        <a href="../index.html#servicios" class="nav__link active">Servicios</a>
+      </div>
+      <div class="nav__group nav__group--right">
+        <a href="../index.html#resenias" class="nav__link">Reseñas</a>
+        <a href="../index.html#contacto" class="nav__link">Contáctanos</a>
+        <a href="../index.html#contacto" class="btn btn--small header__cta">Empezar ahora</a>
+      </div>
     </nav>
-
-    <a href="../index.html#contacto" class="btn btn--small header__cta">Empezar ahora</a>
 
     <button class="burger" id="burger" aria-label="Abrir menú">
       <span></span><span></span><span></span>
@@ -191,7 +207,7 @@
 <footer class="footer">
   <div class="container footer__inner">
     <a href="../index.html#inicio" class="logo logo--footer">
-      <img src="../assets/img/logo-light-trim.png" alt="Growth Partner" class="logo__img">
+      <img src="../assets/img/logo.png" alt="Growth Partner" class="logo__img">
     </a>
     <p>© 2026 Growth Partner. Todos los derechos reservados.</p>
   </div>

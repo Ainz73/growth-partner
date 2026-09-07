@@ -122,6 +122,35 @@ ul { list-style: none; }
   .header { animation: none; }
 }
 
+/* Logo reveal: once the header has finished sliding down (.6s), the
+   logo unveils from both edges at once, meeting in the middle. */
+.logo-reveal__half {
+  animation-duration: .9s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  animation-delay: .6s;
+}
+.logo-reveal__half--left {
+  clip-path: inset(0 100% 0 0);
+  animation-name: logoRevealLeft;
+}
+.logo-reveal__half--right {
+  clip-path: inset(0 0 0 100%);
+  animation-name: logoRevealRight;
+}
+
+@keyframes logoRevealLeft {
+  to { clip-path: inset(0 50% 0 0); }
+}
+@keyframes logoRevealRight {
+  to { clip-path: inset(0 0 0 50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-reveal__half--left { clip-path: inset(0 50% 0 0); animation: none; }
+  .logo-reveal__half--right { clip-path: inset(0 0 0 50%); animation: none; }
+}
+
 .header__inner {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -141,8 +170,22 @@ ul { list-style: none; }
   flex-shrink: 0;
 }
 .logo span { color: var(--green); }
-.logo__img { height: 40px; width: auto; display: block; }
+.logo__img {
+  position: relative;
+  display: block;
+  height: 40px;
+  width: auto;
+  aspect-ratio: 830 / 121;
+}
 .logo--footer .logo__img { height: 34px; }
+
+.logo__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
 .nav { display: contents; }
 
@@ -163,7 +206,7 @@ ul { list-style: none; }
   text-transform: uppercase;
   color: var(--text-dark);
   border-radius: 100px;
-  transition: color .2s ease, background .2s ease;
+  transition: color .2s ease, background .2s ease, transform .2s ease;
 }
 .nav__link::after {
   content: '';
@@ -175,7 +218,7 @@ ul { list-style: none; }
   transform-origin: left;
   transition: transform .25s ease;
 }
-.nav__link:hover { color: var(--green); }
+.nav__link:hover { color: var(--green); transform: translateY(-2px); }
 .nav__link.active { color: var(--green); }
 .nav__link.active::after { transform: scaleX(1); }
 
@@ -990,6 +1033,7 @@ ul { list-style: none; }
 
   .header__cta { display: none; }
   .burger { display: flex; }
+  .logo__img { height: 26px; }
 
   /* Narrow phones need more wrapped lines than desktop for the typewriter's
      longest word, so the tallest reserved state is larger here. Measured
