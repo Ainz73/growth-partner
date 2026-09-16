@@ -106,7 +106,14 @@ ul { list-style: none; }
   background: var(--green);
   color: #fff;
 }
-.btn--primary:hover { transform: translateY(-3px); }
+.btn--primary:hover { transform: translateY(-3px); background: var(--beige); color: var(--wine); }
+
+.hero-intro__actions .btn--primary,
+.contact__form .btn--primary,
+.clients__quote .btn--primary { background: var(--wine); }
+.hero-intro__actions .btn--primary:hover,
+.contact__form .btn--primary:hover,
+.clients__quote .btn--primary:hover { background: var(--green); color: #fff; }
 
 .btn--ghost {
   background: transparent;
@@ -652,44 +659,76 @@ ul { list-style: none; }
   background: linear-gradient(180deg, rgba(231,187,171,0.25), rgba(231,187,171,0.05));
 }
 
-.reviews__grid {
+.clients__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 28px;
-}
-
-.review-card {
+  grid-template-columns: repeat(3, 1fr);
   background: #fff;
-  border-radius: var(--radius);
-  padding: 32px;
   box-shadow: var(--shadow);
-  border-top: 4px solid var(--green);
-  transition: transform .3s ease, box-shadow .3s ease;
-}
-.review-card:nth-child(2) { border-top-color: var(--purple); }
-.review-card:nth-child(3) { border-top-color: var(--wine); }
-.review-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-strong); }
-
-.stars { color: #f5a623; letter-spacing: 2px; margin-bottom: 14px; font-size: 0.95rem; }
-
-.review-card__text {
-  color: var(--text-dark);
-  font-size: 0.98rem;
-  margin-bottom: 24px;
 }
 
-.review-card__author { display: flex; align-items: center; gap: 12px; }
-.avatar {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--green), var(--purple));
-  color: #fff;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 600; font-size: 0.85rem;
+.client-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 48px 44px;
+  border-left: 1px solid rgba(84, 35, 68, 0.12);
+  transition: background .25s ease;
+}
+.client-card:first-child { border-left: none; }
+.client-card:hover { background: rgba(231, 187, 171, 0.12); }
+
+.client-card__logo {
+  width: 64px;
+  height: 64px;
+  background: var(--beige);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   flex-shrink: 0;
 }
-.review-card__author strong { display: block; font-size: 0.92rem; color: var(--blue); }
-.review-card__author span { font-size: 0.82rem; color: var(--text-light); }
+.client-card__logo img { width: 100%; height: 100%; object-fit: cover; }
+
+.client-card__name { font-size: 1.1rem; color: var(--wine); font-weight: 700; }
+.client-card__label {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.clients__quote {
+  margin-top: 28px;
+  background: var(--beige);
+  padding: 48px 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.clients__quote-content { display: flex; flex-direction: column; gap: 10px; }
+.clients__quote-text {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--wine);
+}
+.clients__quote-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--text-light);
+  font-weight: 600;
+}
+.clients__quote .btn { flex-shrink: 0; }
+
+@media (max-width: 720px) {
+  .clients__grid { grid-template-columns: 1fr; }
+  .client-card { border-left: none; border-top: 1px solid rgba(84, 35, 68, 0.12); }
+  .client-card:first-child { border-top: none; }
+  .clients__quote { flex-direction: column; align-items: flex-start; }
+}
 
 /* ==========================================================================
    Contact
