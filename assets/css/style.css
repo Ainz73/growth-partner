@@ -246,8 +246,8 @@ ul { list-style: none; }
   margin-left: 26px;
 }
 
-.logo--footer .logo__word { font-size: 0.9rem; padding: 3px 11px; }
-.logo--footer .logo__word--partner { margin-top: -6px; margin-left: 20px; }
+.logo--footer .logo__word { font-size: 1.65rem; padding: 8px 20px; }
+.logo--footer .logo__word--partner { margin-top: -13px; margin-left: 36px; }
 
 .nav { display: contents; }
 
@@ -1126,18 +1126,50 @@ ul { list-style: none; }
 /* ==========================================================================
    Footer
    ========================================================================== */
-.footer { background: #33162a; padding: 32px 0; }
-.footer__inner {
+.footer { background: #33162a; padding: 64px 0 28px; }
+
+.footer__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  padding-bottom: 48px;
+}
+
+.footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.logo--footer { color: #fff; }
+.footer__tagline {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(231, 187, 171, 0.6);
+}
+
+.footer__nav { display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
+.footer__nav a {
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.85);
+  transition: color .2s ease;
+}
+.footer__nav a:hover { color: var(--beige); }
+
+.footer__bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  padding-top: 20px;
 }
-.footer__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
-.footer .footer__tagline { color: var(--beige); }
-.logo--footer { color: #fff; }
-.footer p { color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+.footer__bottom p {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: rgba(231, 187, 171, 0.5);
+}
 
 /* ==========================================================================
    Responsive
@@ -1214,4 +1246,11 @@ ul { list-style: none; }
   .hero__actions .btn { width: 100%; }
   .contact__form { padding: 24px; }
   .related-services__grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 560px) {
+  .footer { padding: 48px 0 24px; }
+  .footer__top { flex-direction: column; align-items: flex-start; gap: 32px; padding-bottom: 32px; }
+  .footer__nav { align-items: flex-start; }
+  .footer__bottom { flex-direction: column; align-items: flex-start; gap: 6px; }
 }
