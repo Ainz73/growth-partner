@@ -7,6 +7,7 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:4173',
     trace: 'on-first-retry',
+    reducedMotion: 'reduce',
   },
   webServer: {
     command: 'npx serve .. -l 4173',
