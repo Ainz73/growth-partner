@@ -538,6 +538,15 @@ Modify `playwright-tests/pages/BasePage.ts`, adding this method to the `BasePage
       content: '.reveal { opacity: 1 !important; transform: none !important; transition: none !important; }',
     });
     await this.page.evaluate(() => {
+      // In this environment, Playwright's `reducedMotion` context option does not
+      // reliably flip `window.matchMedia('(prefers-reduced-motion: reduce)')` before
+      // script.js's DOMContentLoaded handler runs, so the typewriter's setTimeout-based
+      // tick() recursion can already be in flight. A one-time textContent write alone
+      // gets clobbered by the next scheduled tick (observed within ~1 tick / <=80ms).
+      // Clear all pending timeouts first so nothing can overwrite our override afterward.
+      const highestTimeoutId = window.setTimeout(() => {}, 0);
+      for (let id = 0; id <= highestTimeoutId; id++) window.clearTimeout(id);
+
       const typewriter = document.querySelector<HTMLElement>('.typewriter');
       const cursor = document.querySelector<HTMLElement>('.typewriter-cursor');
       if (typewriter) {
@@ -549,7 +558,7 @@ Modify `playwright-tests/pages/BasePage.ts`, adding this method to the `BasePage
   }
 ```
 
-(RULING, recorded after a BLOCKED report from Task 6's implementer: `reducedMotion: 'reduce'` set via `playwright.config.ts`'s `use` block does not propagate to `window.matchMedia('(prefers-reduced-motion: reduce)')` under the installed `@playwright/test` 1.62.1 when run through the test runner — confirmed via an isolated minimal-config repro. Rather than depend on that option, `prepareForVisualSnapshot()` now neutralizes the typewriter directly: it reads the same `data-words` attribute the site's own reduced-motion branch reads (`assets/js/script.js:112,116`) and replicates its effect in the browser context. This makes the screenshot deterministic regardless of whether the `reducedMotion` emulation bug is ever fixed. The `reducedMotion: 'reduce'` config addition from Step 1 stays — it's harmless and may start working on a future Playwright upgrade — but it is no longer load-bearing for this task.)
+(RULING, recorded after a BLOCKED report from Task 6's implementer, in two rounds: Round 1 found `reducedMotion: 'reduce'` set via `playwright.config.ts`'s `use` block does not propagate to `window.matchMedia('(prefers-reduced-motion: reduce)')` under the installed `@playwright/test` 1.62.1 when run through the test runner — confirmed via an isolated minimal-config repro. The controller ruled: neutralize the typewriter directly instead of depending on that option. Round 2: even the direct `textContent` write alone was insufficient, because the typewriter's `tick()` setTimeout recursion was already running by the time `prepareForVisualSnapshot()` ran, and the very next scheduled tick (≤80ms later) clobbered the override. The implementer's fix — clearing every pending `setTimeout` on the page before writing the override — resolved this (100% stable across repeated runs, verified by the task reviewer). This is scoped to immediately before a screenshot, where nothing else on this site has a legitimate pending timer worth preserving (checked against `assets/js/script.js`: the only other `setTimeout` use is the contact-form success-message dismissal, which isn't pending on a fresh page load). The `reducedMotion: 'reduce'` config addition from Step 1 stays — harmless, may start working on a future Playwright upgrade — but it is no longer load-bearing for this task.)
 
 - [ ] **Step 3: Write the visual specs**
 
