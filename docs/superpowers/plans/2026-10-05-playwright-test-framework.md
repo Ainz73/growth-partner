@@ -528,7 +528,7 @@ Modify `playwright-tests/playwright.config.ts`'s top-level `use` block to:
 
 (The site already respects `prefers-reduced-motion: reduce` for its hero typewriter — `assets/js/script.js:113-117` — showing the first word statically with no blinking cursor. This setting makes that deterministic for screenshots.)
 
-- [ ] **Step 2: Add the reveal-stabilizing helper**
+- [ ] **Step 2: Add the reveal-stabilizing and typewriter-stabilizing helper**
 
 Modify `playwright-tests/pages/BasePage.ts`, adding this method to the `BasePage` class:
 
@@ -537,8 +537,19 @@ Modify `playwright-tests/pages/BasePage.ts`, adding this method to the `BasePage
     await this.page.addStyleTag({
       content: '.reveal { opacity: 1 !important; transform: none !important; transition: none !important; }',
     });
+    await this.page.evaluate(() => {
+      const typewriter = document.querySelector<HTMLElement>('.typewriter');
+      const cursor = document.querySelector<HTMLElement>('.typewriter-cursor');
+      if (typewriter) {
+        const words = typewriter.dataset.words?.split(',') ?? [];
+        if (words[0]) typewriter.textContent = words[0];
+      }
+      if (cursor) cursor.style.display = 'none';
+    });
   }
 ```
+
+(RULING, recorded after a BLOCKED report from Task 6's implementer: `reducedMotion: 'reduce'` set via `playwright.config.ts`'s `use` block does not propagate to `window.matchMedia('(prefers-reduced-motion: reduce)')` under the installed `@playwright/test` 1.62.1 when run through the test runner — confirmed via an isolated minimal-config repro. Rather than depend on that option, `prepareForVisualSnapshot()` now neutralizes the typewriter directly: it reads the same `data-words` attribute the site's own reduced-motion branch reads (`assets/js/script.js:112,116`) and replicates its effect in the browser context. This makes the screenshot deterministic regardless of whether the `reducedMotion` emulation bug is ever fixed. The `reducedMotion: 'reduce'` config addition from Step 1 stays — it's harmless and may start working on a future Playwright upgrade — but it is no longer load-bearing for this task.)
 
 - [ ] **Step 3: Write the visual specs**
 
