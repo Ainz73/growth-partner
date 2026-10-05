@@ -422,8 +422,10 @@ test.describe('Fonts and static assets', () => {
         expect(loaded, `weight ${weight}`).toBe(true);
       }
 
+      // .clients__quote-text is an intentional Georgia/serif pull-quote accent
+      // (assets/css/style.css:727-732), not a Work Sans regression.
       const families = await page.evaluate(() =>
-        [...document.querySelectorAll('body, h1, h2, h3, .eyebrow, .section-title, p, a, input')]
+        [...document.querySelectorAll('body, h1, h2, h3, .eyebrow, .section-title, p:not(.clients__quote-text), a, input')]
           .map(el => getComputedStyle(el).fontFamily)
           .filter((value, index, all) => all.indexOf(value) === index));
       for (const family of families) expect(family).toContain('Work Sans');
