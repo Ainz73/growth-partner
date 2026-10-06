@@ -49,10 +49,14 @@ local Windows baselines (`*-win32.png`) have been committed so far — no
   `*-linux.png` files, then revert the workflow step back to plain
   `npx playwright test`.
 - **Option B:** Run the same environment locally once, using the Docker
-  image that matches the pinned Playwright version:
+  image that matches the pinned Playwright version. The `webServer` serves
+  the repo root (`npx serve ..`), so mount the repo root (one level up from
+  this file), not just `playwright-tests/`, and point `-w` at the
+  `playwright-tests` subdirectory inside the container:
 
   ```bash
-  docker run --rm -v "$PWD:/work" -w /work mcr.microsoft.com/playwright:v1.62.1-noble \
+  cd ..  # repo root
+  docker run --rm -v "$PWD:/work" -w /work/playwright-tests mcr.microsoft.com/playwright:v1.62.1-noble \
     npx playwright test tests/visual --update-snapshots
   ```
 
