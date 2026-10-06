@@ -1,2 +1,7 @@
 assets/fonts/Work_Sans/static/
 test-results/
+
+.playwright-mcp/
+.superpowers/
+.claude/worktrees/
+.claude/settings.local.json
