@@ -10,6 +10,25 @@ document.addEventListener('DOMContentLoaded', () => {
     header.classList.toggle('scrolled', window.scrollY > 10);
   });
 
+  // Replay the logo reveal on hover (the entrance animation finishes at 1.5s)
+  const logo = document.querySelector('.header .logo');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (logo && logo.animate) {
+    const start = performance.now();
+    const halves = [
+      [logo.querySelector('.logo-reveal__half--left'), 'inset(0 100% 0 0)', 'inset(0 50% 0 0)'],
+      [logo.querySelector('.logo-reveal__half--right'), 'inset(0 0 0 100%)', 'inset(0 0 0 50%)'],
+    ];
+    let playing = false;
+    logo.addEventListener('mouseenter', () => {
+      if (playing || reducedMotion.matches || performance.now() - start < 1500) return;
+      playing = true;
+      const anims = halves.map(([el, from, to]) =>
+        el.animate([{ clipPath: from }, { clipPath: to }], { duration: 900, easing: 'ease' }));
+      anims[0].finished.then(() => { playing = false; }, () => { playing = false; });
+    });
+  }
+
   // Mobile menu toggle
   burger.addEventListener('click', () => {
     burger.classList.toggle('open');
