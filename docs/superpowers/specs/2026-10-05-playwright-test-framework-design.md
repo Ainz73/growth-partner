@@ -43,12 +43,18 @@ playwright-tests/
 │   └── ServicioPage.ts        # single class, parametrized by route/expected title
 ├── data/
 │   └── pages.data.ts          # the 5 servicios pages: { path, expectedTitle, ... }
-├── tests/
-│   ├── structure/             # title, key sections, header/footer nav, asset/font checks
-│   ├── responsive/            # same assertions, validated against mobile layout/behavior
-│   └── visual/                # toHaveScreenshot, full-page, per project
-└── snapshots/                 # versioned baselines (committed to git)
+└── tests/
+    ├── structure/             # title, key sections, header/footer nav, asset/font checks
+    ├── responsive/            # same assertions, validated against mobile layout/behavior
+    └── visual/                # toHaveScreenshot, full-page, per project
+        └── *.spec.ts-snapshots/  # versioned baselines (committed to git), one dir per
+                                   # spec file, Playwright's default location/naming
 ```
+
+(Implementation note: the plan deliberately used Playwright's default adjacent
+`*.spec.ts-snapshots/` folders rather than the top-level `snapshots/` shown in an
+earlier draft of this tree, to stay idiomatic rather than force a custom
+`snapshotPathTemplate` for no real benefit. See the plan's Task 6.)
 
 ### Page Objects & fixtures
 
@@ -64,7 +70,7 @@ playwright-tests/
 
 Two projects in `playwright.config.ts`:
 
-- `desktop-chromium` — Desktop Chrome, ~1280×800 viewport.
+- `desktop-chromium` — Desktop Chrome (Playwright's `devices['Desktop Chrome']`, 1280×720 viewport).
 - `mobile-chromium` — emulated via Playwright's `devices['Pixel 7']` (or current
   equivalent at implementation time).
 
