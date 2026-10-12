@@ -1,7 +1,8 @@
 # Playwright Tests
 
 Playwright test suite for the Growth Partner static site, covering page
-structure/content, responsive/mobile behavior, and visual regression.
+structure/content, interactive behavior, responsive/mobile behavior, and
+visual regression. For a step-by-step guide in Spanish, see `GUIA.md`.
 
 ## Running
 
@@ -35,23 +36,33 @@ To update a baseline after an intentional visual change:
 npx playwright test tests/visual --update-snapshots
 ```
 
-## CI: one-time Linux baseline bootstrap
+That command only regenerates the baselines for the OS it runs on, so a
+local run on Windows updates `*-win32.png` but leaves the `*-linux.png`
+files used by CI untouched. Regenerate those too (see below), or the
+workflow will fail on `tests/visual`.
 
-The GitHub Actions workflow (`.github/workflows/playwright.yml`) will
-**fail on `tests/visual/*` the first time it runs**, because only the
-local Windows baselines (`*-win32.png`) have been committed so far — no
-`*-linux.png` baselines exist yet. This needs to be fixed once:
+## CI
 
-- **Option A:** Temporarily change the workflow's test step to
-  `npx playwright test --update-snapshots`, let the job run, download the
-  new screenshots from the job artifacts (or regenerate them locally
-  against a matching image — see Option B), commit the resulting
-  `*-linux.png` files, then revert the workflow step back to plain
-  `npx playwright test`.
-- **Option B:** Run the same environment locally once, using the Docker
-  image that matches the pinned Playwright version. The `webServer` serves
-  the repo root (`npx serve ..`), so mount the repo root (one level up from
-  this file), not just `playwright-tests/`, and point `-w` at the
+The GitHub Actions workflow (`.github/workflows/playwright.yml`) runs the
+full suite on every push and pull request to `master`, compares against
+the committed `*-linux.png` baselines, and uploads the HTML report as an
+artifact.
+
+### Updating the Linux baselines
+
+After an intentional visual change, regenerate the Linux baselines in one
+of two ways:
+
+- **Option A (CI):** On your branch, temporarily change the workflow's
+  test step to `npx playwright test --update-snapshots` and add a step
+  that uploads `playwright-tests/tests/visual/**/*-linux.png` as an
+  artifact. Open a pull request so the workflow runs, download the
+  artifact (`gh run download <run-id> -n <artifact-name>`), copy the files
+  into `tests/visual/`, commit them, and revert the workflow change.
+- **Option B (Docker):** Run the same environment locally, using the
+  Docker image that matches the pinned Playwright version. The `webServer`
+  serves the repo root (`npx serve ..`), so mount the repo root (one level
+  up from this file), not just `playwright-tests/`, and point `-w` at the
   `playwright-tests` subdirectory inside the container:
 
   ```bash
@@ -61,5 +72,3 @@ local Windows baselines (`*-win32.png`) have been committed so far — no
   ```
 
   then commit the generated `*-linux.png` files.
-
-Either way, this only needs to happen once.
