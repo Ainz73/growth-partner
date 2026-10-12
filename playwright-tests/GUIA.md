@@ -82,7 +82,9 @@ Tolerancia: `maxDiffPixelRatio: 0.01`.
   ```
 - `prepareForVisualSnapshot()` (en `BasePage`) congela las animaciones `.reveal` y el
   typewriter para que la captura sea determinista. Úsalo siempre antes de `toHaveScreenshot`.
-- Los baselines de Linux (CI) se generan con Docker; ver `README.md`.
+- `--update-snapshots` solo regenera los baselines del sistema donde corre. Tras un cambio
+  visual intencional hay que regenerar también los de Linux (CI); ver `README.md`,
+  sección "Updating the Linux baselines".
 
 ## 6. Cómo agregar tests (paso a paso)
 
@@ -132,7 +134,7 @@ Tolerancia: `maxDiffPixelRatio: 0.01`.
 | Síntoma | Causa / solución |
 |---|---|
 | `port 4173 already in use` | Otro `serve` activo; en local se reutiliza (`reuseExistingServer`). Si es otro proceso, ciérralo. |
-| Visual falla solo en CI | Faltan baselines `*-linux.png` (ver `README.md`, sección bootstrap). |
+| Visual falla solo en CI | Baselines `*-linux.png` desactualizados (ver `README.md`, "Updating the Linux baselines"). |
 | Visual falla local tras cambiar CSS | Cambio intencional → `--update-snapshots` y revisar el diff. |
 | Test pasa aislado pero falla en suite | Prueba `--workers=1`; busca estado compartido o animaciones sin esperar. |
 | `Executable doesn't exist` | `npx playwright install chromium`. |
