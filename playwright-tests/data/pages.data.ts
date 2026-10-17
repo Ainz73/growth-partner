@@ -20,4 +20,11 @@ export const servicioPages: SitePage[] = [
   { name: 'redes-sociales', path: '/servicios/redes-sociales.html', title: 'Gestión de Redes Sociales | Growth Partner', heroTextContains: 'Gestión de Redes Sociales' },
 ];
 
-export const allPages: SitePage[] = [homePageData, ...servicioPages];
+export const nosotrosPageData: SitePage = {
+  name: 'nosotros',
+  path: '/nosotros.html',
+  title: 'Nosotros | Growth Partner',
+  heroTextContains: 'entender tu negocio',
+};
+
+export const allPages: SitePage[] = [homePageData, nosotrosPageData, ...servicioPages];

@@ -20,8 +20,9 @@ export class HomePage extends BasePage {
     return this.page.locator(`section#${id}`);
   }
 
-  ctaLink(name: string): Locator {
-    return this.page.locator('main').getByRole('link', { name, exact: true });
+  ctaLink(name: string, scope?: string): Locator {
+    const container = scope ? this.section(scope) : this.page.locator('main');
+    return container.getByRole('link', { name, exact: true });
   }
 }
 

@@ -56,14 +56,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   sections.forEach(section => spyObserver.observe(section));
 
-  // Reveal on scroll (re-triggers every time an element enters/leaves the viewport)
+  // Reveal on scroll. Shows at 15% visible and only resets once the element is
+  // fully below the viewport, so it replays when scrolled back in from below.
+  // Resetting at the same 15% line made elements flicker at the top edge: the
+  // hidden state's translateY pushed them back across the threshold, forever.
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      entry.target.classList.toggle('is-visible', entry.isIntersecting);
+      if (entry.intersectionRatio >= 0.15) {
+        entry.target.classList.add('is-visible');
+      } else if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
+        entry.target.classList.remove('is-visible');
+      }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: [0, 0.15] });
 
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  // Start observing only after the page has really painted. Elements already on
+  // screen at load would otherwise get is-visible before their hidden state was
+  // ever rendered, so the browser skips the transition and they just pop in
+  // (most noticeable on pages opened from the nav). requestAnimationFrame alone
+  // isn't enough: Chrome runs frames before the first paint of a navigation.
+  let revealStarted = false;
+  const startReveal = () => {
+    if (revealStarted) return;
+    revealStarted = true;
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    });
+  };
+  if (window.PerformanceObserver && PerformanceObserver.supportedEntryTypes?.includes('paint')) {
+    new PerformanceObserver((list, observer) => {
+      observer.disconnect();
+      startReveal();
+    }).observe({ type: 'paint', buffered: true });
+    setTimeout(startReveal, 1000); // in case no paint entry is ever reported
+  } else {
+    requestAnimationFrame(() => requestAnimationFrame(startReveal));
+  }
 
   // Scrollytelling (service detail pages)
   document.querySelectorAll('.scrolly').forEach(scrolly => {
@@ -116,12 +144,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('contact-form');
   const success = document.getElementById('form-success');
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    success.classList.add('show');
-    form.reset();
-    setTimeout(() => success.classList.remove('show'), 4000);
-  });
+  // Only the home page has the form.
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      success.classList.add('show');
+      form.reset();
+      setTimeout(() => success.classList.remove('show'), 4000);
+    });
+  }
 
   // Hero typewriter
   const typewriterEl = document.querySelector('.typewriter');
@@ -143,6 +174,35 @@ document.addEventListener('DOMContentLoaded', () => {
       let wordIndex = 0;
       let charIndex = 0;
       let deleting = false;
+
+      // Reserve the tallest height the subtitle reaches across every typed
+      // state, so a word wrapping onto a new line never pushes the page down.
+      // Measured instead of hard-coded: the wrap points depend on the font,
+      // the copy and the viewport width.
+      const subtitle = typewriterEl.closest('.hero__subtitle');
+      const reserveHeight = () => {
+        if (!subtitle) return;
+        const current = typewriterEl.textContent;
+        subtitle.style.minHeight = '';
+        let tallest = 0;
+        words.forEach(word => {
+          for (let i = 0; i <= word.length; i++) {
+            typewriterEl.textContent = word.slice(0, i);
+            tallest = Math.max(tallest, subtitle.getBoundingClientRect().height);
+          }
+        });
+        typewriterEl.textContent = current;
+        subtitle.style.minHeight = `${Math.ceil(tallest)}px`;
+      };
+
+      reserveHeight();
+      if (document.fonts) document.fonts.ready.then(reserveHeight);
+      let lastWidth = window.innerWidth;
+      window.addEventListener('resize', () => {
+        if (window.innerWidth === lastWidth) return;
+        lastWidth = window.innerWidth;
+        reserveHeight();
+      });
 
       const tick = () => {
         const currentWord = words[wordIndex];
