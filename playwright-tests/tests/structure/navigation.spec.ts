@@ -7,7 +7,7 @@ test.describe('Home navigation', () => {
 
     await expect(homePage.navLink('Inicio')).toHaveAttribute('href', '#inicio');
     await expect(homePage.navLink('Servicios')).toHaveAttribute('href', '#servicios');
-    await expect(homePage.navLink('Nosotros')).toHaveAttribute('href', '#nosotros');
+    await expect(homePage.navLink('Nosotros')).toHaveAttribute('href', 'nosotros.html');
     await expect(homePage.navLink('Contáctanos')).toHaveAttribute('href', '#contacto');
   });
 
@@ -16,7 +16,7 @@ test.describe('Home navigation', () => {
 
     await expect(homePage.footerLink('Inicio')).toHaveAttribute('href', '#inicio');
     await expect(homePage.footerLink('Servicios')).toHaveAttribute('href', '#servicios');
-    await expect(homePage.footerLink('Nosotros')).toHaveAttribute('href', '#nosotros');
+    await expect(homePage.footerLink('Nosotros')).toHaveAttribute('href', 'nosotros.html');
     await expect(homePage.footerLink('Contáctanos')).toHaveAttribute('href', '#contacto');
   });
 });
@@ -33,7 +33,7 @@ test.describe('Servicio pages navigation', () => {
 
       await expect(servicioPage.footerLink('Inicio')).toHaveAttribute('href', '../index.html#inicio');
       await expect(servicioPage.footerLink('Servicios')).toHaveAttribute('href', '../index.html#servicios');
-      await expect(servicioPage.footerLink('Nosotros')).toHaveAttribute('href', '../index.html#nosotros');
+      await expect(servicioPage.footerLink('Nosotros')).toHaveAttribute('href', '../nosotros.html');
       await expect(servicioPage.footerLink('Contáctanos')).toHaveAttribute('href', '../index.html#contacto');
     });
   }

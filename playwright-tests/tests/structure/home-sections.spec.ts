@@ -42,14 +42,13 @@ test.describe('Home process section', () => {
 });
 
 test.describe('Home reviews section', () => {
-  test('shows three reviews with author, rating and avatar', async ({ homePage }) => {
+  test('shows three reviews with author, text and avatar', async ({ homePage }) => {
     await homePage.goto();
 
     await expect(homePage.reviewCards).toHaveCount(reviewAuthors.length);
     for (const [index, author] of reviewAuthors.entries()) {
       const review = homePage.reviewCards.nth(index);
       await expect(review.locator('.review-card__name')).toHaveText(author);
-      await expect(review.getByRole('img', { name: '5 de 5 estrellas' })).toBeVisible();
       await expect(review.locator('.review-card__text')).not.toBeEmpty();
 
       // Avatars are loading="lazy", so they only fetch once scrolled near the viewport.

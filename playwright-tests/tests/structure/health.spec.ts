@@ -1,13 +1,9 @@
 import { test, expect } from '../../fixtures/pages.fixture';
-import { allPages, homePageData } from '../../data/pages.data';
+import { allPages } from '../../data/pages.data';
 
 test.describe('Page health', () => {
   for (const sitePage of allPages) {
     test(`${sitePage.name}: loads without JavaScript errors`, async ({ page }) => {
-      // Known bug: assets/js/script.js binds the contact form without checking it exists,
-      // and only the home page has one. Remove this once script.js is fixed.
-      test.fail(sitePage !== homePageData, 'script.js throws on pages without #contact-form');
-
       const errors: string[] = [];
       page.on('pageerror', error => errors.push(error.message));
       page.on('console', message => {

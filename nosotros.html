@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosotros | Growth Partner</title>
+<link rel="preload" href="assets/fonts/Work_Sans/WorkSans-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="header" id="header">
+  <div class="container header__inner">
+    <nav class="nav" id="nav">
+      <div class="nav__group nav__group--left">
+        <a href="index.html#inicio" class="nav__link">Inicio</a>
+        <a href="index.html#servicios" class="nav__link">Servicios</a>
+      </div>
+      <div class="nav__group nav__group--right">
+        <a href="nosotros.html" class="nav__link active" aria-current="page">Nosotros</a>
+        <a href="index.html#contacto" class="nav__link">Contáctanos</a>
+      </div>
+    </nav>
+
+    <a href="index.html#inicio" class="logo">
+      <span class="logo__img logo-reveal">
+        <svg class="logo__svg logo-reveal__half logo-reveal__half--left" viewBox="0 0 830 121" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="420" height="121" fill="#e7bbab"/>
+          <rect x="420" y="0" width="410" height="121" fill="#542344"/>
+          <text x="210" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Work Sans', sans-serif" font-weight="700" font-size="66" fill="#542344">Growth</text>
+          <text x="625" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Work Sans', sans-serif" font-weight="700" font-size="66" fill="#e7bbab">Partner</text>
+        </svg>
+        <svg class="logo__svg logo-reveal__half logo-reveal__half--right" viewBox="0 0 830 121" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="0" width="420" height="121" fill="#e7bbab"/>
+          <rect x="420" y="0" width="410" height="121" fill="#542344"/>
+          <text x="210" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Work Sans', sans-serif" font-weight="700" font-size="66" fill="#542344">Growth</text>
+          <text x="625" y="63" text-anchor="middle" dominant-baseline="central" font-family="'Work Sans', sans-serif" font-weight="700" font-size="66" fill="#e7bbab">Partner</text>
+        </svg>
+      </span>
+    </a>
+
+    <button class="burger" id="burger" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Las secciones no llevan id: el scroll-spy de script.js quitaría el
+     estado activo del enlace "Nosotros" al cruzar una sección con id. -->
+<main>
+
+  <!-- HERO -->
+  <section class="hero about-hero">
+    <div class="hero__texture" aria-hidden="true"></div>
+    <div class="container hero__inner">
+      <h1 class="hero__title about-hero__title reveal">El marketing no debería empezar por una publicación.<br><span class="hero__title-highlight about-hero__highlight">Debería empezar por entender tu negocio.</span></h1>
+      <p class="about-hero__text reveal">Somos una consultora de crecimiento digital que entiende primero, piensa después y ejecuta con propósito.</p>
+    </div>
+  </section>
+
+  <!-- LO QUE CREEMOS -->
+  <section class="values">
+    <div class="container">
+      <h2 class="section-title reveal">Principios que guían cada decisión</h2>
+
+      <div class="values__grid">
+        <div class="value-card reveal">
+          <span class="value-card__number">01</span>
+          <h3>Estrategia antes que publicación</h3>
+          <p>No creamos contenido solo para llenar un calendario. Cada pieza responde a un objetivo.</p>
+        </div>
+        <div class="value-card reveal">
+          <span class="value-card__number">02</span>
+          <h3>Entender antes de proponer</h3>
+          <p>No recomendamos una solución sin comprender primero el problema.</p>
+        </div>
+        <div class="value-card reveal">
+          <span class="value-card__number">03</span>
+          <h3>Creatividad con propósito</h3>
+          <p>Una idea puede ser creativa y aun así no servir al negocio. Buscamos las dos cosas.</p>
+        </div>
+        <div class="value-card reveal">
+          <span class="value-card__number">04</span>
+          <h3>Honestidad antes que promesas</h3>
+          <p>No prometemos ventas garantizadas. Medimos, aprendemos y optimizamos con datos reales.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EL EQUIPO -->
+  <section class="team">
+    <div class="container">
+      <h2 class="section-title reveal">Un equipo pequeño, involucrado en tu negocio</h2>
+      <p class="section-subtitle reveal">Trabajas directamente con quienes piensan y crean tu marketing, sin intermediarios.</p>
+
+      <!-- TODO: reemplazar los marcadores de foto por <img> con los retratos reales del equipo -->
+      <div class="team__grid">
+        <article class="team-lead reveal">
+          <div class="team-lead__photo" role="img" aria-label="Foto de Claudia Ventura">
+            <span class="team-lead__initials" aria-hidden="true">CV</span>
+          </div>
+          <div class="team-lead__body">
+            <p class="team__role">FUNDADORA Y ESTRATEGA</p>
+            <h3>Claudia Ventura</h3>
+            <p class="team-lead__text">Lidera la estrategia, el diagnóstico y el acompañamiento de cada cliente. Licenciada en Ingeniería Comercial.</p>
+          </div>
+        </article>
+
+        <div class="team__members">
+          <article class="team-member reveal">
+            <div class="team-member__photo" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.5" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20C5.4 16.4 8.4 14.5 12 14.5C15.6 14.5 18.6 16.4 19.5 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <p class="team__role">DISEÑADORA GRÁFICA</p>
+              <h3>Elizabeth Aguilar</h3>
+            </div>
+          </article>
+          <article class="team-member reveal">
+            <div class="team-member__photo" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.5" r="4" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20C5.4 16.4 8.4 14.5 12 14.5C15.6 14.5 18.6 16.4 19.5 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </div>
+            <div>
+              <p class="team__role">EDITORA DE VIDEO</p>
+              <h3>Cielo Vargas</h3>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEÑAS -->
+  <section class="reviews">
+    <div class="container">
+      <h2 class="section-title reveal">Lo que dicen nuestros clientes</h2>
+      <p class="section-subtitle reveal">La confianza de quienes ya han crecido con nosotros.</p>
+
+      <!-- TODO: reemplazar estas reseñas de ejemplo por testimonios reales de los clientes -->
+      <div class="reviews__grid reveal">
+        <figure class="review-card reveal">
+          <blockquote class="review-card__text">«Desde que trabajamos juntos, nuestras redes tienen orden y las ventas se notan cada semana.»</blockquote>
+          <figcaption class="review-card__author">
+            <img class="review-card__avatar" src="assets/img/PA.jpg" alt="" loading="lazy">
+            <div>
+              <strong class="review-card__name">Puerto Azul Bolivia</strong>
+              <span class="review-card__role">Cliente</span>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="review-card reveal">
+          <blockquote class="review-card__text">«Entendieron nuestra marca desde el primer día. El contenido por fin se ve como somos.»</blockquote>
+          <figcaption class="review-card__author">
+            <img class="review-card__avatar" src="assets/img/TC.jpg" alt="" loading="lazy">
+            <div>
+              <strong class="review-card__name">Trazitos Colors</strong>
+              <span class="review-card__role">Cliente</span>
+            </div>
+          </figcaption>
+        </figure>
+        <figure class="review-card reveal">
+          <blockquote class="review-card__text">«Nos dieron un plan claro y reportes que sí se entienden. Recomendados al cien por ciento.»</blockquote>
+          <figcaption class="review-card__author">
+            <img class="review-card__avatar" src="assets/img/KA.jpg" alt="" loading="lazy">
+            <div>
+              <strong class="review-card__name">K'achamosas</strong>
+              <span class="review-card__role">Cliente</span>
+            </div>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="about-cta">
+    <div class="hero__texture" aria-hidden="true"></div>
+    <div class="container about-cta__inner reveal">
+      <h2>Queremos entender qué estás construyendo</h2>
+      <p>Cuéntanos qué quieres lograr y qué está frenando tu crecimiento. Empezamos por ahí.</p>
+      <a href="index.html#contacto" class="btn btn--primary">Agenda tu diagnóstico</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__top">
+    <div class="footer__brand">
+      <div class="logo logo--footer">
+        <span class="logo__stack">
+          <span class="logo__word logo__word--growth">Growth</span>
+          <span class="logo__word logo__word--partner">Partner</span>
+        </span>
+      </div>
+      <p class="footer__tagline">Tu equipo externo de crecimiento</p>
+    </div>
+    <nav class="footer__nav">
+      <a href="index.html#inicio">Inicio</a>
+      <a href="index.html#servicios">Servicios</a>
+      <a href="nosotros.html">Nosotros</a>
+      <a href="index.html#contacto">Contáctanos</a>
+    </nav>
+  </div>
+  <div class="container footer__bottom">
+    <p>Cochabamba, Bolivia · Marketing digital</p>
+    <p>© 2026 Growth Partner. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<script src="assets/js/script.js"></script>
+</body>
+</html>

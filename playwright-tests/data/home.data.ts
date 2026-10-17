@@ -1,13 +1,16 @@
 export interface HomeCta {
   name: string;
   targetId: string;
+  /** Section id to look in, for CTA labels that appear more than once. */
+  scope?: string;
 }
 
 export const homeCtas: HomeCta[] = [
-  { name: 'Agenda tu cita', targetId: 'contacto' },
+  { name: 'Hablemos de tu negocio', targetId: 'contacto' },
   { name: 'Ver servicios', targetId: 'servicios' },
+  { name: 'Agenda tu diagnóstico', targetId: 'contacto', scope: 'servicios' },
   { name: 'Quiero empezar', targetId: 'contacto' },
-  { name: 'Ver casos con resultados', targetId: 'servicios' },
+  { name: 'Agenda tu diagnóstico', targetId: 'contacto', scope: 'resenias' },
 ];
 
 export interface NavItem {
@@ -18,7 +21,6 @@ export interface NavItem {
 export const homeNavItems: NavItem[] = [
   { name: 'Inicio', targetId: 'inicio' },
   { name: 'Servicios', targetId: 'servicios' },
-  { name: 'Nosotros', targetId: 'nosotros' },
   { name: 'Contáctanos', targetId: 'contacto' },
 ];
 
@@ -28,12 +30,12 @@ export interface ServiceCard {
 }
 
 export const serviceCards: ServiceCard[] = [
+  { title: 'Plan de marketing digital', path: '/servicios/estrategia-digital.html' },
   { title: 'Branding e identidad visual', path: '/servicios/estrategia-marca.html' },
   { title: 'Estrategia de contenido', path: '/servicios/produccion-contenido.html' },
   { title: 'Creación de contenido', path: '/servicios/produccion-contenido.html' },
   { title: 'Gestión de redes sociales', path: '/servicios/redes-sociales.html' },
   { title: 'Publicidad online', path: '/servicios/publicidad.html' },
-  { title: 'Plan de marketing digital', path: '/servicios/estrategia-digital.html' },
 ];
 
 export const processSteps: string[] = [
