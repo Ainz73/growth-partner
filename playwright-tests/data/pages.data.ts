@@ -28,3 +28,6 @@ export const nosotrosPageData: SitePage = {
 };
 
 export const allPages: SitePage[] = [homePageData, nosotrosPageData, ...servicioPages];
+
+/** Header nav links, in order. Every page shares the same header. */
+export const headerNavLinks = ['Inicio', 'Servicios', 'Nosotros', 'Contáctanos'];

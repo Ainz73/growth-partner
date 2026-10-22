@@ -5,7 +5,7 @@ export class HomePage extends BasePage {
   readonly heroTitle = this.page.locator('h1.hero__title');
   readonly logo = this.header.locator('a.logo');
   readonly serviceCards = this.page.locator('#servicios a.card');
-  readonly processSteps = this.page.locator('#nosotros .process__step');
+  readonly processSteps = this.page.locator('#proceso .process__step');
   readonly reviewCards = this.page.locator('#resenias .review-card');
 
   constructor(page: Page) {
