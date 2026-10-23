@@ -759,8 +759,9 @@ ul { list-style: none; }
   .clients__quote.reveal { transition-delay: .9s; }
 }
 
+/* :nth-child(n) outranks the per-card and mobile delays, which come later. */
 @media (prefers-reduced-motion: reduce) {
-  .review-card.reveal { --review-delay: 0s; transform: none; }
+  .review-card.reveal:nth-child(n) { --review-delay: 0s; transform: none; }
   .clients__quote.reveal { transition-delay: 0s; }
 }
 
@@ -1393,7 +1394,7 @@ ul { list-style: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .value-card { --value-delay: 0s; }
+  .value-card.reveal:nth-child(n) { --value-delay: 0s; }
   .about-hero__text.reveal { transition-delay: 0s; }
   .team-lead.reveal,
   .team-member.reveal,
