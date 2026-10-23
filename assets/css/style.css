@@ -282,8 +282,6 @@ ul { list-style: none; }
 .nav__link.active { color: var(--green); }
 .nav__link.active::after { transform: scaleX(1); }
 
-.header__cta { margin-left: 12px; flex-shrink: 0; }
-
 .burger {
   display: none;
   flex-direction: column;
@@ -761,8 +759,9 @@ ul { list-style: none; }
   .clients__quote.reveal { transition-delay: .9s; }
 }
 
+/* :nth-child(n) outranks the per-card and mobile delays, which come later. */
 @media (prefers-reduced-motion: reduce) {
-  .review-card.reveal { --review-delay: 0s; transform: none; }
+  .review-card.reveal:nth-child(n) { --review-delay: 0s; transform: none; }
   .clients__quote.reveal { transition-delay: 0s; }
 }
 
@@ -1395,7 +1394,7 @@ ul { list-style: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .value-card { --value-delay: 0s; }
+  .value-card.reveal:nth-child(n) { --value-delay: 0s; }
   .about-hero__text.reveal { transition-delay: 0s; }
   .team-lead.reveal,
   .team-member.reveal,
@@ -1510,7 +1509,6 @@ ul { list-style: none; }
   .nav__group { flex-direction: column; gap: 4px; }
   .nav__link { padding: 12px 16px; }
 
-  .header__cta { display: none; }
   .burger { display: flex; }
   .logo__img { height: 26px; }
 

@@ -42,6 +42,40 @@ test.describe('Nosotros page', () => {
       .toHaveAttribute('href', 'index.html#contacto');
   });
 
+  test('has a single h1 and one h2 per section', async ({ page, nosotrosPage }) => {
+    await nosotrosPage.goto();
+
+    await expect(page.locator('h1')).toHaveCount(1);
+    await expect(page.locator('main h2')).toHaveText([
+      'Principios que guían cada decisión',
+      'Un equipo pequeño, involucrado en tu negocio',
+      'Lo que dicen nuestros clientes',
+      'Queremos entender qué estás construyendo',
+    ]);
+  });
+
+  test('team photos are labelled or hidden from assistive tech', async ({ nosotrosPage }) => {
+    await nosotrosPage.goto();
+
+    await expect(nosotrosPage.teamLead.getByRole('img', { name: 'Foto de Claudia Ventura' })).toBeAttached();
+    for (const member of await nosotrosPage.teamMembers.all()) {
+      await expect(member.locator('.team-member__photo')).toHaveAttribute('aria-hidden', 'true');
+      await expect(member.getByRole('heading', { level: 3 })).not.toBeEmpty();
+    }
+  });
+
+  test('review avatars load and are decorative', async ({ nosotrosPage }) => {
+    await nosotrosPage.goto();
+
+    for (const review of await nosotrosPage.reviewCards.all()) {
+      // Avatars are loading="lazy", so they only fetch once scrolled near the viewport.
+      const avatar = review.locator('img.review-card__avatar');
+      await expect(avatar).toHaveAttribute('alt', '');
+      await avatar.scrollIntoViewIfNeeded();
+      await expect.poll(() => avatar.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+    }
+  });
+
   test('leaves out the "Nuestra historia" section', async ({ page, nosotrosPage }) => {
     await nosotrosPage.goto();
 

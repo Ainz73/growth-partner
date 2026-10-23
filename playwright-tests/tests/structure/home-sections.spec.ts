@@ -11,7 +11,10 @@ test.describe('Home services section', () => {
       const cardLink = homePage.serviceCards.nth(index);
       await expect(cardLink.getByRole('heading')).toHaveText(card.title);
       await expect(cardLink).toHaveAttribute('href', card.path.replace(/^\//, ''));
+      await expect(cardLink.locator('.card__number')).toHaveText(`0${index + 1}`);
     }
+    // The whole card is the link, so the old "Ver servicio" labels were dropped.
+    await expect(homePage.serviceCards.locator('.card__more')).toHaveCount(0);
   });
 
   for (const [index, card] of serviceCards.entries()) {
@@ -32,6 +35,8 @@ test.describe('Home process section', () => {
   test('shows the four steps in order', async ({ homePage }) => {
     await homePage.goto();
 
+    await expect(homePage.section('proceso').locator('.process__subtitle')).toContainText('acompañamiento estratégico');
+
     await expect(homePage.processSteps).toHaveCount(processSteps.length);
     for (const [index, title] of processSteps.entries()) {
       const step = homePage.processSteps.nth(index);
@@ -50,6 +55,7 @@ test.describe('Home reviews section', () => {
       const review = homePage.reviewCards.nth(index);
       await expect(review.locator('.review-card__name')).toHaveText(author);
       await expect(review.locator('.review-card__text')).not.toBeEmpty();
+      await expect(review.locator('.review-card__stars')).toHaveCount(0);
 
       // Avatars are loading="lazy", so they only fetch once scrolled near the viewport.
       const avatar = review.locator('img.review-card__avatar');
