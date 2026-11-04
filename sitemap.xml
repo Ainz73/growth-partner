@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PLACEHOLDER domain: replace growthpartner.example at launch. Add a <url> here for every new page. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://growthpartner.example/</loc></url>
+  <url><loc>https://growthpartner.example/nosotros.html</loc></url>
+  <url><loc>https://growthpartner.example/servicios/estrategia-digital.html</loc></url>
+  <url><loc>https://growthpartner.example/servicios/estrategia-marca.html</loc></url>
+  <url><loc>https://growthpartner.example/servicios/produccion-contenido.html</loc></url>
+  <url><loc>https://growthpartner.example/servicios/publicidad.html</loc></url>
+  <url><loc>https://growthpartner.example/servicios/redes-sociales.html</loc></url>
+</urlset>

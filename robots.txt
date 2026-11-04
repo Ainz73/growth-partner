@@ -1,0 +1,9 @@
+# Growth Partner: all pages may be crawled.
+# PLACEHOLDER domain: replace growthpartner.example at launch (same as og:image in each page).
+User-agent: *
+Allow: /
+# Repo-only folders, not part of the site.
+Disallow: /docs/
+Disallow: /playwright-tests/
+
+Sitemap: https://growthpartner.example/sitemap.xml

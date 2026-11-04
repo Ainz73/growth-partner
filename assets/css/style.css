@@ -1451,6 +1451,57 @@ ul { list-style: none; }
 }
 
 /* ==========================================================================
+   404 page
+   ========================================================================== */
+.error-hero { min-height: 78vh; }
+.error-hero .hero__inner { max-width: 900px; }
+
+/* "404" drawn as the logo's two colour blocks. */
+.error-hero__code {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 36px;
+  font-size: clamp(4.5rem, 16vw, 8.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.error-hero__code span { padding: 10px 0.18em 14px; }
+.error-hero__code span:nth-child(odd) { background: var(--beige); color: var(--wine); }
+.error-hero__code span:nth-child(2) {
+  color: var(--beige);
+  box-shadow: inset 0 0 0 2px rgba(231, 187, 171, 0.45);
+}
+
+.error-hero__title { line-height: 1.15; }
+.error-hero__highlight {
+  margin-top: 22px;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  line-height: 1.3;
+}
+.error-hero__text.reveal { transition-delay: .2s; }
+/* The buttons sit outside .container, so give them the same side gutter. */
+.error-hero .hero__actions { position: relative; z-index: 1; padding: 0 24px; }
+
+/* Five cards: wrap and center so a short last row doesn't hug the left. */
+.related-services__grid--all {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.related-services__grid--all .card { flex: 0 1 calc((100% - 80px) / 5); min-width: 180px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .error-hero__text.reveal { transition-delay: 0s; }
+}
+
+@media (max-width: 560px) {
+  .error-hero { min-height: 0; }
+  .error-hero__code { margin-bottom: 28px; }
+  .related-services__grid--all .card { flex-basis: 100%; }
+}
+
+/* ==========================================================================
    Responsive
    ========================================================================== */
 @media (max-width: 1180px) {
