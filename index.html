@@ -270,9 +270,15 @@
       </div>
 
       <form class="contact__form reveal" id="contact-form">
-        <div class="form__row">
-          <label>Nombre</label>
-          <input type="text" name="nombre" placeholder="Tu nombre" required>
+        <div class="form__row-group">
+          <div class="form__row">
+            <label>Nombre</label>
+            <input type="text" name="nombre" placeholder="Tu nombre" autocomplete="given-name" required>
+          </div>
+          <div class="form__row">
+            <label>Apellido</label>
+            <input type="text" name="apellido" placeholder="Tu apellido" autocomplete="family-name" required>
+          </div>
         </div>
         <div class="form__row">
           <label>Correo electrónico</label>
