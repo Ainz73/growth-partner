@@ -49,5 +49,12 @@ export class BasePage {
       }
       if (cursor) cursor.style.display = 'none';
     });
+    // loading="lazy" images below the fold may not have loaded yet, which makes
+    // full-page snapshots flaky. Force them to load and wait until they're decoded.
+    await this.page.evaluate(async () => {
+      const images = Array.from(document.images);
+      images.forEach((img) => { img.loading = 'eager'; });
+      await Promise.all(images.map((img) => img.decode().catch(() => {})));
+    });
   }
 }
