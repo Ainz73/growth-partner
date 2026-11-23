@@ -762,6 +762,25 @@ ul { list-style: none; }
 }
 .reviews__swiper .swiper-slide-active .review-card { box-shadow: var(--shadow-strong); }
 
+.reviews__dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+.reviews__dots button {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(84, 35, 68, 0.25);
+  cursor: pointer;
+  transition: background .25s ease, transform .25s ease;
+}
+.reviews__dots button[aria-current="true"] { background: var(--green); transform: scale(1.35); }
+.reviews__dots button:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
+
 /* When the whole section arrives at once, let the quote follow the reviews
    instead of finishing before them. */
 @media (min-width: 721px) {

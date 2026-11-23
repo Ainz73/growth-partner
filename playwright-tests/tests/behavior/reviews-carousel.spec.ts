@@ -38,5 +38,94 @@ for (const sitePage of [homePageData, nosotrosPageData]) {
         await expect(card).toHaveCSS('opacity', '1');
       }
     });
+
+    test('shows one dot per review', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+
+      await expect(homePage.reviewDots).toHaveCount(reviewAuthors.length);
+      for (const [index, author] of reviewAuthors.entries()) {
+        const dot = homePage.reviewDots.nth(index);
+        await expect(dot).toHaveAttribute('aria-label', `Ver reseña de ${author}`);
+        await expect(dot).toHaveAttribute('aria-current', index === 0 ? 'true' : 'false');
+      }
+    });
+
+    test('a dot brings its review to the centre', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+
+      await homePage.reviewDots.nth(2).click();
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[2]);
+      await expect(homePage.reviewDots.nth(2)).toHaveAttribute('aria-current', 'true');
+      await expect(homePage.reviewDots.nth(0)).toHaveAttribute('aria-current', 'false');
+    });
+
+    test('dots work from the keyboard', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+
+      await homePage.reviewDots.nth(1).focus();
+      await page.keyboard.press('Enter');
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[1]);
+    });
+
+    test('clicking a side review brings it to the centre', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+      await homePage.reviewsCarousel.scrollIntoViewIfNeeded();
+      await expect(homePage.reviewsCarousel).toHaveClass(/is-visible/);
+
+      const next = homePage.reviewsCarousel.locator('.swiper-slide-next');
+      const name = (await next.locator('.review-card__name').textContent())!;
+      await next.click();
+      await expect(homePage.activeReviewName).toHaveText(name);
+      await expect(homePage.reviewDots.nth(reviewAuthors.indexOf(name))).toHaveAttribute('aria-current', 'true');
+    });
+
+    test('advances on its own every 6 seconds', async ({ page, homePage }) => {
+      await page.mouse.move(0, 0);
+      await page.goto(sitePage.path);
+
+      await page.waitForTimeout(4000);
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[0]);
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[1], { timeout: 4000 });
+    });
+
+    test('pauses while hovered', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+      await homePage.reviewsCarousel.scrollIntoViewIfNeeded();
+      await homePage.reviewsCarousel.locator('.swiper-slide-active').hover();
+
+      await page.waitForTimeout(7000);
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[0]);
+    });
+
+    test('reduced motion: no autoplay, flat', async ({ page, homePage }) => {
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.mouse.move(0, 0);
+      await page.goto(sitePage.path);
+
+      await page.waitForTimeout(7000);
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[0]);
+      const rotate = await page.locator('.reviews__swiper').evaluate((el: any) => el.swiper.params.coverflowEffect.rotate);
+      expect(rotate).toBe(0);
+
+      await homePage.reviewDots.nth(1).click();
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[1]);
+    });
   });
 }
+
+test('six real reviews: no clones, six dots', async ({ page, homePage }) => {
+  await page.route(/\/$/, async route => {
+    const response = await route.fetch();
+    const html = await response.text();
+    const doubled = html.replace(
+      /(<div class="swiper-wrapper">)([\s\S]*?)(\s*<\/div>\s*<\/div>\s*<div class="reviews__dots")/,
+      (_, open, slides, close) => open + slides + slides.replace(/(review-card__name">)([^<]+)/g, '$1$2 B') + close,
+    );
+    await route.fulfill({ response, body: doubled });
+  });
+  await homePage.goto();
+
+  await expect(homePage.reviewDots).toHaveCount(reviewAuthors.length * 2);
+  await expect(page.locator('.review-card--clone')).toHaveCount(0);
+  await expect(homePage.reviewDots.nth(5)).toHaveAttribute('aria-label', `Ver reseña de ${reviewAuthors[2]} B`);
+});

@@ -18,24 +18,52 @@
     }
   }
 
+  // One button per real review; returns a function that marks the active one.
+  function buildDots(container, names, onPick) {
+    const dots = names.map((name, i) => {
+      const dot = document.createElement('button');
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `Ver reseña de ${name}`);
+      dot.addEventListener('click', () => onPick(i));
+      container.appendChild(dot);
+      return dot;
+    });
+    return active => dots.forEach((dot, i) => dot.setAttribute('aria-current', String(i === active)));
+  }
+
   function initReviewsCarousel(root) {
     const swiperEl = root.querySelector('.reviews__swiper');
     if (!window.Swiper || !swiperEl) return null;
 
-    cloneSlidesForLoop(swiperEl.querySelector('.swiper-wrapper'));
+    const wrapper = swiperEl.querySelector('.swiper-wrapper');
+    const names = [...wrapper.querySelectorAll('.review-card__name')].map(el => el.textContent.trim());
+    cloneSlidesForLoop(wrapper);
 
-    return new Swiper(swiperEl, {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const swiper = new Swiper(swiperEl, {
       effect: 'coverflow',
       centeredSlides: true,
       slidesPerView: 'auto',
       loop: true,
       grabCursor: true,
       slideToClickedSlide: true,
-      speed: 800,
-      coverflowEffect: { rotate: 32, stretch: 0, depth: 220, modifier: 1, slideShadows: false },
-      autoplay: { delay: AUTOPLAY_DELAY, pauseOnMouseEnter: true, disableOnInteraction: false },
+      speed: reduceMotion ? 0 : 800,
+      coverflowEffect: reduceMotion
+        ? { rotate: 0, stretch: 0, depth: 0, modifier: 1, slideShadows: false }
+        : { rotate: 32, stretch: 0, depth: 220, modifier: 1, slideShadows: false },
+      autoplay: reduceMotion
+        ? false
+        : { delay: AUTOPLAY_DELAY, pauseOnMouseEnter: true, disableOnInteraction: false },
       a11y: { enabled: true },
     });
+
+    const dotsEl = root.querySelector('.reviews__dots');
+    if (dotsEl) {
+      const setActive = buildDots(dotsEl, names, i => swiper.slideToLoop(i));
+      setActive(0);
+      swiper.on('slideChange', () => setActive(swiper.realIndex % names.length));
+    }
+    return swiper;
   }
 
   window.initReviewsCarousel = initReviewsCarousel;
