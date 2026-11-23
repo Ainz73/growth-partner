@@ -55,6 +55,16 @@ export class BasePage {
       }
       if (cursor) cursor.style.display = 'none';
     });
+    // The reviews carousel advances on its own: park it on the first review.
+    await this.page.evaluate(async () => {
+      document.querySelectorAll<HTMLElement>('.reviews__swiper').forEach((el) => {
+        const swiper = (el as any).swiper;
+        if (!swiper) return;
+        swiper.autoplay?.stop();
+        swiper.slideToLoop(0, 0);
+      });
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    });
     // loading="lazy" images below the fold may not have loaded yet, which makes
     // full-page snapshots flaky. Force them to load and wait until they're decoded.
     await this.page.evaluate(async () => {
