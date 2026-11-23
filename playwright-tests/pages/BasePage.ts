@@ -6,6 +6,9 @@ export class BasePage {
   readonly nav: Locator;
   readonly burger: Locator;
   readonly footer: Locator;
+  readonly reviewsCarousel: Locator;
+  readonly reviewDots: Locator;
+  readonly activeReviewName: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -13,6 +16,9 @@ export class BasePage {
     this.nav = page.locator('#nav');
     this.burger = page.locator('#burger');
     this.footer = page.locator('footer.footer');
+    this.reviewsCarousel = page.locator('.reviews__carousel');
+    this.reviewDots = this.reviewsCarousel.locator('.reviews__dots button');
+    this.activeReviewName = this.reviewsCarousel.locator('.swiper-slide-active .review-card__name');
   }
 
   async goto(path: string) {

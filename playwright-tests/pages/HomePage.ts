@@ -6,7 +6,7 @@ export class HomePage extends BasePage {
   readonly logo = this.header.locator('a.logo');
   readonly serviceCards = this.page.locator('#servicios a.card');
   readonly processSteps = this.page.locator('#proceso .process__step');
-  readonly reviewCards = this.page.locator('#resenias .review-card');
+  readonly reviewCards = this.page.locator('#resenias .review-card:not(.review-card--clone)');
 
   constructor(page: Page) {
     super(page);
