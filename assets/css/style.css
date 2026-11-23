@@ -729,6 +729,11 @@ ul { list-style: none; }
   width: min(420px, 78vw);
   height: auto;
 }
+/* Coverflow pushes the side slides back in 3D, behind the wrapper's own
+   plane, so the (transparent) wrapper would swallow clicks and hover on the
+   left-hand cards. Only the slides take the pointer; drags still bubble up. */
+.reviews__swiper.swiper-initialized .swiper-wrapper { pointer-events: none; }
+.reviews__swiper.swiper-initialized .swiper-slide { pointer-events: auto; }
 
 /* Without Swiper (script blocked or failed) the reviews are a plain
    scrollable row, all at full opacity. */
@@ -762,24 +767,33 @@ ul { list-style: none; }
 }
 .reviews__swiper .swiper-slide-active .review-card { box-shadow: var(--shadow-strong); }
 
+/* Each dot is a 24px tap target with the 10px dot drawn inside it. */
 .reviews__dots {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-top: 28px;
+  margin-top: 21px;
 }
 .reviews__dots button {
-  width: 10px;
-  height: 10px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: rgba(84, 35, 68, 0.25);
+  background: none;
   cursor: pointer;
+}
+.reviews__dots button::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(84, 35, 68, 0.25);
   transition: background .25s ease, transform .25s ease;
 }
-.reviews__dots button[aria-current="true"] { background: var(--green); transform: scale(1.35); }
-.reviews__dots button:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
+.reviews__dots button[aria-current="true"]::before { background: var(--green); transform: scale(1.35); }
+.reviews__dots button:focus-visible { outline: 2px solid var(--wine); outline-offset: 0; }
 
 /* When the whole section arrives at once, let the quote follow the reviews
    instead of finishing before them. */

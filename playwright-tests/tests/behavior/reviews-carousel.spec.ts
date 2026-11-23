@@ -20,7 +20,60 @@ for (const sitePage of [homePageData, nosotrosPageData]) {
       await expect(cloneSlides).toHaveCount(reviewAuthors.length);
       for (const slide of await cloneSlides.all()) {
         await expect(slide).toHaveAttribute('aria-hidden', 'true');
-        await expect(slide).toHaveAttribute('inert', '');
+      }
+    });
+
+    test('clicking the left review brings it to the centre', async ({ page, homePage }) => {
+      await page.mouse.move(0, 0);
+      await page.goto(sitePage.path);
+      await homePage.reviewsCarousel.scrollIntoViewIfNeeded();
+      await expect(homePage.reviewsCarousel).toHaveClass(/is-visible/);
+
+      // At the start the left neighbour is a loop clone of the last review.
+      await homePage.reviewsCarousel.locator('.swiper-slide-prev').click();
+      const last = reviewAuthors[reviewAuthors.length - 1];
+      await expect(homePage.activeReviewName).toHaveText(last);
+      await expect(homePage.reviewDots.last()).toHaveAttribute('aria-current', 'true');
+    });
+
+    test('dragging the centre review left shows the next one', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+      await homePage.reviewsCarousel.scrollIntoViewIfNeeded();
+      await expect(homePage.reviewsCarousel).toHaveClass(/is-visible/);
+
+      const box = (await homePage.reviewsCarousel.locator('.swiper-slide-active').boundingBox())!;
+      const y = box.y + box.height / 2;
+      await page.mouse.move(box.x + box.width * 0.8, y);
+      await page.mouse.down();
+      await page.mouse.move(box.x + box.width * 0.1, y, { steps: 10 });
+      await page.mouse.up();
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[1]);
+    });
+
+    test('pauses while a dot has keyboard focus', async ({ page, homePage }) => {
+      await page.mouse.move(0, 0);
+      await page.goto(sitePage.path);
+      await homePage.reviewDots.nth(0).focus();
+
+      await page.waitForTimeout(7000);
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[0]);
+    });
+
+    test('slides are announced in Spanish counting real reviews', async ({ page }) => {
+      await page.goto(sitePage.path);
+
+      const firstReal = page.locator('.swiper-slide:not(:has(.review-card--clone))').first();
+      await expect(firstReal).toHaveAttribute('aria-label', `1 de ${reviewAuthors.length}`);
+      await expect(firstReal).toHaveAttribute('aria-roledescription', 'reseña');
+    });
+
+    test('dots are at least 24px tap targets', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+
+      for (const dot of await homePage.reviewDots.all()) {
+        const box = (await dot.boundingBox())!;
+        expect(box.width).toBeGreaterThanOrEqual(24);
+        expect(box.height).toBeGreaterThanOrEqual(24);
       }
     });
 

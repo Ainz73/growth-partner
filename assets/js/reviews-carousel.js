@@ -10,9 +10,10 @@
     const slides = [...wrapper.children];
     if (slides.length >= MIN_LOOP_SLIDES) return;
     for (const slide of slides) {
+      // Hidden from assistive tech only: clones show on screen (as neighbours
+      // and, in turn, as the centre card), so they must stay clickable.
       const clone = slide.cloneNode(true);
       clone.setAttribute('aria-hidden', 'true');
-      clone.inert = true;
       clone.querySelector('.review-card').classList.add('review-card--clone');
       wrapper.appendChild(clone);
     }
@@ -54,8 +55,21 @@
       autoplay: reduceMotion
         ? false
         : { delay: AUTOPLAY_DELAY, pauseOnMouseEnter: true, disableOnInteraction: false },
-      a11y: { enabled: true },
+      a11y: {
+        enabled: true,
+        slideLabelMessage: `{{index}} de ${names.length}`,
+        itemRoleDescriptionMessage: 'reseña',
+        containerRoleDescriptionMessage: 'carrusel',
+      },
     });
+
+    // Keyboard users get the same pause as mouse users while they're inside.
+    if (swiper.autoplay && swiper.params.autoplay) {
+      root.addEventListener('focusin', () => swiper.autoplay.pause());
+      root.addEventListener('focusout', event => {
+        if (!root.contains(event.relatedTarget)) swiper.autoplay.resume();
+      });
+    }
 
     const dotsEl = root.querySelector('.reviews__dots');
     if (dotsEl) {
