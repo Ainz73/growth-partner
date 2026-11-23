@@ -23,6 +23,23 @@ for (const sitePage of [homePageData, nosotrosPageData]) {
       }
     });
 
+    test('shows exactly three different reviews: centre and one per side', async ({ page, homePage }) => {
+      await page.goto(sitePage.path);
+      await expect(page.locator('.reviews__swiper')).toHaveClass(/swiper-initialized/);
+
+      const visibleNames = () => page.locator('.reviews__swiper .swiper-slide').evaluateAll(slides =>
+        slides
+          .filter(slide => getComputedStyle(slide).opacity !== '0')
+          .map(slide => slide.querySelector('.review-card__name')!.textContent!.trim())
+          .sort());
+      const expected = [...reviewAuthors].sort();
+
+      await expect.poll(visibleNames).toEqual(expected);
+      await homePage.reviewDots.nth(1).click();
+      await expect(homePage.activeReviewName).toHaveText(reviewAuthors[1]);
+      await expect.poll(visibleNames).toEqual(expected);
+    });
+
     test('clicking the left review brings it to the centre', async ({ page, homePage }) => {
       await page.mouse.move(0, 0);
       await page.goto(sitePage.path);

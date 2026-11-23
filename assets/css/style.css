@@ -733,7 +733,17 @@ ul { list-style: none; }
    plane, so the (transparent) wrapper would swallow clicks and hover on the
    left-hand cards. Only the slides take the pointer; drags still bubble up. */
 .reviews__swiper.swiper-initialized .swiper-wrapper { pointer-events: none; }
-.reviews__swiper.swiper-initialized .swiper-slide { pointer-events: auto; }
+.reviews__swiper.swiper-initialized .swiper-slide {
+  pointer-events: auto;
+  /* Swiper sets the duration inline while sliding; fade along with the move. */
+  transition-property: transform, opacity;
+}
+/* Only the centre review and its two neighbours show; the rest (including
+   loop clones) wait out of sight, so no review appears twice on screen. */
+.reviews__swiper.swiper-initialized .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(.swiper-slide-next) {
+  opacity: 0;
+  pointer-events: none;
+}
 
 /* Without Swiper (script blocked or failed) the reviews are a plain
    scrollable row, all at full opacity. */
