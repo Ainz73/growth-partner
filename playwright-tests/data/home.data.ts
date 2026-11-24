@@ -57,7 +57,8 @@ export const contactData = {
   whatsappUrl: 'https://wa.me/59167583824',
   successMessage: '¡Gracias! Te contactaremos muy pronto.',
   validMessage: {
-    nombre: 'Ana Pérez',
+    nombre: 'Ana',
+    apellido: 'Pérez',
     email: 'ana@ejemplo.com',
     mensaje: 'Quiero mejorar las redes de mi negocio.',
   },

@@ -713,13 +713,48 @@ ul { list-style: none; }
 .reviews {
   padding: 120px 0;
   background: linear-gradient(180deg, rgba(231,187,171,0.25), rgba(231,187,171,0.05));
+  /* Side reviews of the carousel run past the container; clip them at the
+     viewport edge without making the section a scroll container. */
+  overflow-x: clip;
 }
 
-.reviews__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background: #fff;
-  box-shadow: var(--shadow);
+/* The carousel only fades in; Swiper owns the movement of the cards. */
+.reviews__carousel.reveal { transform: none; }
+
+.reviews__swiper {
+  overflow: visible;
+  padding: 24px 0 32px;
+}
+.reviews__swiper .swiper-slide {
+  width: min(420px, 78vw);
+  height: auto;
+}
+/* Coverflow pushes the side slides back in 3D, behind the wrapper's own
+   plane, so the (transparent) wrapper would swallow clicks and hover on the
+   left-hand cards. Only the slides take the pointer; drags still bubble up. */
+.reviews__swiper.swiper-initialized .swiper-wrapper { pointer-events: none; }
+.reviews__swiper.swiper-initialized .swiper-slide {
+  pointer-events: auto;
+  /* Swiper sets the duration inline while sliding; fade along with the move. */
+  transition-property: transform, opacity;
+}
+/* Only the centre review and its two neighbours show; the rest (including
+   loop clones) wait out of sight, so no review appears twice on screen. */
+.reviews__swiper.swiper-initialized .swiper-slide:not(.swiper-slide-active):not(.swiper-slide-prev):not(.swiper-slide-next) {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Without Swiper (script blocked or failed) the reviews are a plain
+   scrollable row, all at full opacity. */
+.reviews__swiper:not(.swiper-initialized) .swiper-wrapper {
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.reviews__swiper:not(.swiper-initialized) .swiper-slide {
+  flex-shrink: 0;
+  scroll-snap-align: center;
 }
 
 .review-card {
@@ -727,31 +762,48 @@ ul { list-style: none; }
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+  height: 100%;
   margin: 0;
   padding: 48px 44px;
-  border-left: 1px solid rgba(84, 35, 68, 0.12);
-  transition: background .25s ease;
+  background: #fff;
+  box-shadow: var(--shadow);
+  transition: opacity .35s ease, transform .35s ease, box-shadow .35s ease;
 }
-.review-card:first-child { border-left: none; }
-.review-card:hover { background: rgba(231, 187, 171, 0.12); }
-
-/* The panel only fades in; the movement belongs to the cards inside it, so
-   the two rises don't stack. */
-.reviews__grid.reveal { transform: none; }
-
-/* Reviews rise in one by one inside the panel, slower than the default
-   reveal. The delay only applies to the entrance, not the hover background. */
-.review-card.reveal {
-  --review-delay: .25s;
-  transform: translateY(32px);
-  transition:
-    opacity 1.2s ease var(--review-delay),
-    transform 1.2s cubic-bezier(.22, .61, .36, 1) var(--review-delay),
-    background .25s ease;
+.reviews__swiper.swiper-initialized .swiper-slide:not(.swiper-slide-active) .review-card { opacity: .5; }
+.reviews__swiper.swiper-initialized .swiper-slide:not(.swiper-slide-active):hover .review-card {
+  opacity: .95;
+  transform: scale(1.06);
+  box-shadow: var(--shadow-strong);
 }
-.review-card.reveal.is-visible { transform: translateY(0); }
-.review-card:nth-child(2) { --review-delay: .6s; }
-.review-card:nth-child(3) { --review-delay: .95s; }
+.reviews__swiper .swiper-slide-active .review-card { box-shadow: var(--shadow-strong); }
+
+/* Each dot is a 24px tap target with the 10px dot drawn inside it. */
+.reviews__dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 21px;
+}
+.reviews__dots button {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+.reviews__dots button::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(84, 35, 68, 0.25);
+  transition: background .25s ease, transform .25s ease;
+}
+.reviews__dots button[aria-current="true"]::before { background: var(--green); transform: scale(1.35); }
+.reviews__dots button:focus-visible { outline: 2px solid var(--wine); outline-offset: 0; }
 
 /* When the whole section arrives at once, let the quote follow the reviews
    instead of finishing before them. */
@@ -759,9 +811,9 @@ ul { list-style: none; }
   .clients__quote.reveal { transition-delay: .9s; }
 }
 
-/* :nth-child(n) outranks the per-card and mobile delays, which come later. */
 @media (prefers-reduced-motion: reduce) {
-  .review-card.reveal:nth-child(n) { --review-delay: 0s; transform: none; }
+  .review-card { transition: none; }
+  .reviews__swiper.swiper-initialized .swiper-slide:not(.swiper-slide-active):hover .review-card { transform: none; }
   .clients__quote.reveal { transition-delay: 0s; }
 }
 
@@ -819,11 +871,7 @@ ul { list-style: none; }
 .clients__quote .btn { flex-shrink: 0; }
 
 @media (max-width: 720px) {
-  .reviews__grid { grid-template-columns: 1fr; }
-  .review-card { padding: 36px 28px; border-left: none; border-top: 1px solid rgba(84, 35, 68, 0.12); }
-  .review-card:first-child { border-top: none; }
-  /* Stacked: each card is revealed as it is scrolled to, so no stagger. */
-  .review-card:nth-child(n) { --review-delay: .1s; }
+  .review-card { padding: 36px 28px; }
   .clients__quote { flex-direction: column; align-items: flex-start; }
 }
 
@@ -960,6 +1008,11 @@ ul { list-style: none; }
   box-shadow: var(--shadow-strong);
 }
 .form__row { margin-bottom: 20px; }
+.form__row-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
 .form__row label {
   display: block;
   font-size: 0.85rem;
@@ -1319,20 +1372,19 @@ ul { list-style: none; }
   box-shadow: var(--shadow-strong);
 }
 .team-lead__photo {
+  position: relative;
   min-height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background:
-    radial-gradient(rgba(255, 255, 255, 0.1) 1.5px, transparent 1.5px) 0 0 / 22px 22px,
-    #6e3159;
+  overflow: hidden;
+  background: #6e3159;
 }
-.team-lead__initials {
-  font-size: 4.5rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  color: var(--beige);
-  opacity: .85;
+.team-lead__photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Keep her face in frame when the card crops the 4:3 photo. */
+  object-position: 50% 30%;
 }
 .team-lead__body {
   display: flex;
@@ -1599,6 +1651,7 @@ ul { list-style: none; }
   .hero__actions { flex-direction: column; width: 100%; }
   .hero__actions .btn { width: 100%; }
   .contact__form { padding: 24px; }
+  .form__row-group { grid-template-columns: 1fr; }
   .related-services__grid { grid-template-columns: 1fr; }
 }
 

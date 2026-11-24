@@ -6,6 +6,9 @@ export class BasePage {
   readonly nav: Locator;
   readonly burger: Locator;
   readonly footer: Locator;
+  readonly reviewsCarousel: Locator;
+  readonly reviewDots: Locator;
+  readonly activeReviewName: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -13,6 +16,9 @@ export class BasePage {
     this.nav = page.locator('#nav');
     this.burger = page.locator('#burger');
     this.footer = page.locator('footer.footer');
+    this.reviewsCarousel = page.locator('.reviews__carousel');
+    this.reviewDots = this.reviewsCarousel.locator('.reviews__dots button');
+    this.activeReviewName = this.reviewsCarousel.locator('.swiper-slide-active .review-card__name');
   }
 
   async goto(path: string) {
@@ -48,6 +54,23 @@ export class BasePage {
         if (words[0]) typewriter.textContent = words[0];
       }
       if (cursor) cursor.style.display = 'none';
+    });
+    // The reviews carousel advances on its own: park it on the first review.
+    await this.page.evaluate(async () => {
+      document.querySelectorAll<HTMLElement>('.reviews__swiper').forEach((el) => {
+        const swiper = (el as any).swiper;
+        if (!swiper) return;
+        swiper.autoplay?.stop();
+        swiper.slideToLoop(0, 0);
+      });
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+    });
+    // loading="lazy" images below the fold may not have loaded yet, which makes
+    // full-page snapshots flaky. Force them to load and wait until they're decoded.
+    await this.page.evaluate(async () => {
+      const images = Array.from(document.images);
+      images.forEach((img) => { img.loading = 'eager'; });
+      await Promise.all(images.map((img) => img.decode().catch(() => {})));
     });
   }
 }

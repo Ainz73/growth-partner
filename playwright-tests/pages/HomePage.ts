@@ -6,7 +6,7 @@ export class HomePage extends BasePage {
   readonly logo = this.header.locator('a.logo');
   readonly serviceCards = this.page.locator('#servicios a.card');
   readonly processSteps = this.page.locator('#proceso .process__step');
-  readonly reviewCards = this.page.locator('#resenias .review-card');
+  readonly reviewCards = this.page.locator('#resenias .review-card:not(.review-card--clone)');
 
   constructor(page: Page) {
     super(page);
@@ -30,6 +30,7 @@ export class ContactPage extends BasePage {
   readonly contactSection = this.page.locator('section#contacto');
   readonly contactForm = this.page.locator('#contact-form');
   readonly nombreInput = this.contactForm.locator('[name="nombre"]');
+  readonly apellidoInput = this.contactForm.locator('[name="apellido"]');
   readonly emailInput = this.contactForm.locator('[name="email"]');
   readonly mensajeInput = this.contactForm.locator('[name="mensaje"]');
   readonly submitButton = this.contactForm.getByRole('button', { name: 'Enviar mensaje' });
@@ -37,8 +38,9 @@ export class ContactPage extends BasePage {
   readonly contactList = this.contactSection.locator('.contact__list');
   readonly whatsappLink = this.contactSection.getByRole('link', { name: 'WhatsApp' });
 
-  async fillForm(data: { nombre: string; email: string; mensaje: string }) {
+  async fillForm(data: { nombre: string; apellido: string; email: string; mensaje: string }) {
     await this.nombreInput.fill(data.nombre);
+    await this.apellidoInput.fill(data.apellido);
     await this.emailInput.fill(data.email);
     await this.mensajeInput.fill(data.mensaje);
   }

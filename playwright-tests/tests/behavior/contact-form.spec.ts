@@ -12,6 +12,7 @@ test.describe('Contact form', () => {
     await expect(contactPage.successMessage).toBeVisible();
     await expect(contactPage.successMessage).toHaveText(contactData.successMessage);
     await expect(contactPage.nombreInput).toHaveValue('');
+    await expect(contactPage.apellidoInput).toHaveValue('');
     await expect(contactPage.emailInput).toHaveValue('');
     await expect(contactPage.mensajeInput).toHaveValue('');
   });
@@ -34,7 +35,7 @@ test.describe('Contact form', () => {
     await contactPage.submitButton.click();
 
     await expect(contactPage.successMessage).toBeHidden();
-    for (const input of [contactPage.nombreInput, contactPage.emailInput, contactPage.mensajeInput]) {
+    for (const input of [contactPage.nombreInput, contactPage.apellidoInput, contactPage.emailInput, contactPage.mensajeInput]) {
       expect(await input.evaluate((el: HTMLInputElement) => el.validity.valueMissing)).toBe(true);
     }
   });
@@ -48,6 +49,7 @@ test.describe('Contact form', () => {
     await expect(contactPage.successMessage).toBeHidden();
     expect(await contactPage.emailInput.evaluate((el: HTMLInputElement) => el.validity.typeMismatch)).toBe(true);
     await expect(contactPage.nombreInput).toHaveValue(contactData.validMessage.nombre);
+    await expect(contactPage.apellidoInput).toHaveValue(contactData.validMessage.apellido);
   });
 
   test('shows contact details and a WhatsApp link that opens in a new tab', async ({ homePage, contactPage }) => {

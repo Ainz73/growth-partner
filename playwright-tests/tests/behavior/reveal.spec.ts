@@ -2,12 +2,12 @@ import type { Locator } from '@playwright/test';
 import { test, expect } from '../../fixtures/pages.fixture';
 import { homePageData, nosotrosPageData } from '../../data/pages.data';
 
-// Both pages nest .review-card reveals inside a .reviews__grid reveal.
+// Both pages reveal the reviews carousel as one .reviews__carousel block.
 for (const sitePage of [homePageData, nosotrosPageData]) {
   test.describe(`Scroll reveal on ${sitePage.name}`, () => {
     test('does not flicker when an element is parked at the top edge of the viewport', async ({ page }) => {
       await page.goto(sitePage.path);
-      const grid = page.locator('.reviews__grid');
+      const grid = page.locator('.reviews__carousel');
       await grid.scrollIntoViewIfNeeded();
       await expect(grid).toHaveClass(/is-visible/);
 
@@ -30,7 +30,7 @@ for (const sitePage of [homePageData, nosotrosPageData]) {
 
     test('replays when the element is scrolled back in from below', async ({ page }) => {
       await page.goto(sitePage.path);
-      const grid = page.locator('.reviews__grid');
+      const grid = page.locator('.reviews__carousel');
       await grid.scrollIntoViewIfNeeded();
       await expect(grid).toHaveClass(/is-visible/);
 

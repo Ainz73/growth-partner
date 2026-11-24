@@ -6,7 +6,7 @@ export class NosotrosPage extends BasePage {
   readonly valueCards = this.page.locator('.values .value-card');
   readonly teamLead = this.page.locator('.team .team-lead');
   readonly teamMembers = this.page.locator('.team .team-member');
-  readonly reviewCards = this.page.locator('.reviews .review-card');
+  readonly reviewCards = this.page.locator('.reviews .review-card:not(.review-card--clone)');
   readonly cta = this.page.locator('.about-cta');
 
   constructor(page: Page) {
